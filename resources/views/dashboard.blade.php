@@ -47,7 +47,14 @@
                             <tbody>
                             @foreach($personnels as $personnel)
                             <tr>
-                                <td>{{$personnel->prenom}} {{$personnel->nom}}</td>
+                                @if($personnel->photo != null)
+                                    <td>
+                                        <img src="{{ url(\Illuminate\Support\Facades\Storage::url($personnel->photo))}}" alt="" class="avatar-xs rounded-circle mr-2">
+                                        <a href="#" class="text-body">{{$personnel->prenom}} {{$personnel->nom}}</a>
+                                    </td>
+                                @else
+                                    <td>{{$personnel->prenom}} {{$personnel->nom}}</td>
+                                @endif
                                 <td>{{$personnel->societe}}</td>
                                 <td>{{$personnel->direction}}</td>
                                 <td>{{$personnel->fonction}}</td>
@@ -55,10 +62,10 @@
                                 <td>
                                     <ul class="list-inline mb-0">
                                         <li class="list-inline-item">
-                                            <a href="#" class="px-2 text-primary" data-toggle="tooltip" data-placement="top" title="Consulter"><i class="far fa-eye font-size-18"></i></a>
+                                            <a href="{{route('personnels.show', [$personnel->id])}}" class="px-2 text-primary" data-toggle="tooltip" data-placement="top" title="Consulter"><i class="far fa-eye font-size-18"></i></a>
                                         </li>
                                         <li class="list-inline-item">
-                                            <a href="#" class="px-2 text-primary" data-toggle="tooltip" data-placement="top" title="Ajout Habilitation"><i class="fas fa-fist-raised font-size-18"></i></a>
+                                            <a href="{{route('personnels.formulaireAjoutHabilitation', [$personnel->id])}}" class="px-2 text-primary" data-toggle="tooltip" data-placement="top" title="Ajout Habilitation"><i class="fas fa-fist-raised font-size-18"></i></a>
                                         </li>
                                         <li class="list-inline-item">
                                             <a href="#" class="px-2 text-primary" data-toggle="tooltip" data-placement="top" title="Edit"><i class="uil uil-pen font-size-18"></i></a>

@@ -19,7 +19,7 @@
                 <div class="card-body">
 
                     <h4 class="card-title">Ajout Personnel</h4>
-                    <form action="{{route('personnels.store')}}" method="POST">
+                    <form action="{{route('personnels.store')}}" method="POST" enctype="multipart/form-data">
                         @csrf
 
                         <div class="form-group row">
@@ -53,6 +53,15 @@
                                 <div class="alert alert-danger">{{ $message }}</div>
                                 @enderror
                             </div>
+                        </div>
+
+                        <div class="form-group col-md-4">
+                            <label for="photo">Photo de profil</label>
+                            <input name="photo" type="file" class="form-control-file"
+                                   id="photo" value="{{old('photo')}}">
+                            @error('photo')
+                            <div class="error">{{ $message }}</div>
+                            @enderror
                         </div>
 
                         <div class="form-group row">

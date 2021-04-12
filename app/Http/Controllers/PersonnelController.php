@@ -62,6 +62,13 @@ class PersonnelController extends Controller
         $personnel->direction = $request->direction;
         $personnel->fonction = $request->fonction;
 
+        $photoPath = $request->file('photo');
+        //dd($photoPath);
+        if ($photoPath != null) {
+            $personnel->photo = $photoPath->store('public/images/photos');
+        }else {
+            $personnel->photo = " ";
+        }
         $personnel->save();
 
         return redirect()->route('dashboard');
@@ -84,24 +91,28 @@ class PersonnelController extends Controller
 
     public function formulaireAjoutHabilitation($id) {
         $habilitations = Habilitation::all();
-        return view('personnels.ajout_habilitation', compact('habilitations'));
+        return view('personnels.ajout_habilitation', compact('habilitations', 'id'));
     }
 
     public function ajoutHabilitation(Request $request) {
+        //return $request;
+
         $request->validate([
             'date_obtention' => 'required|date|before:date_fin_validite',
-            'date_fin_validite' => 'required|date|after:date_obtention'
+            'date_fin_validite' => 'required|date|after:date_obtention',
+            'habilitation' => 'required'
 
         ]);
-        foreach ($request->habilitations as $habilitation){
-            $habilitationEntrepreneur = new HabilitationPersonnel();
-            $habilitationEntrepreneur->habilitation_id = $habilitation->id;
-            $habilitationEntrepreneur->personnel_id = $request->personnel_id;
-            $habilitationEntrepreneur->date_obtention = $request->date_obtention;
-            $habilitationEntrepreneur->date_fin_validite = $request->date_fin_validite;
-            $habilitationEntrepreneur->save();
 
-        }
+        $habilitationPersonnel = new HabilitationPersonnel();
+        $habilitationPersonnel->habilitation_id = $request->habilitation;
+        $habilitationPersonnel->personnel_id = $request->personnel_id;
+        $habilitationPersonnel->date_obtention = $request->date_obtention;
+        $habilitationPersonnel->date_fin_validite = $request->date_fin_validite;
+
+        $habilitationPersonnel->save();
+
+
 
         return redirect()->route('personnels.show', [$request->personnel_id]);
 
