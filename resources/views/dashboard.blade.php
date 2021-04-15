@@ -3,58 +3,40 @@
     Home
 @endsection
 
+<!-- DataTables -->
+<link href="{{ URL::asset('assets/libs/datatables/datatables.min.css')}}" rel="stylesheet" type="text/css" />
+
 @section('content')
 
+
     <div class="row">
-        <div class="col-lg-12">
+        <div class="col-12">
             <div class="card">
                 <div class="card-body">
-                    <div class="row mb-2">
-                        <div class="col-md-6">
-                            <div class="mb-3">
-                                <a href="{{route('personnels.create')}}" class="btn btn-success waves-effect waves-light"><i class="mdi mdi-plus mr-2"></i> Ajouter</a>
-                            </div>
+
+                    <h4 class="card-title">Liste Personnel</h4>
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <a href="{{route('personnels.create')}}" class="btn btn-success waves-effect waves-light"><i class="mdi mdi-plus mr-2"></i> Ajouter</a>
                         </div>
-
-                        <div class="col-md-6">
-                            <div class="form-inline float-md-right mb-3">
-                                <div class="search-box ml-2">
-                                    <div class="position-relative">
-                                        <input type="text" class="form-control rounded bg-light border-0" placeholder="Search...">
-                                        <i class="mdi mdi-magnify search-icon"></i>
-                                    </div>
-                                </div>
-
-                            </div>
-                        </div>
-
-
                     </div>
-                    <!-- end row -->
-                    <div class="table-responsive mb-4">
-                        <table class="table table-centered table-nowrap mb-0">
-                            <thead>
-                            <tr>
 
-                                <th scope="col">Prenom et Nom</th>
-                                <th scope="col">Societe</th>
-                                <th scope="col">Direction</th>
-                                <th scope="col">Fonction</th>
-                                <th scope="col">Telephone</th>
-                                <th scope="col" style="width: 200px;">Action</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            @foreach($personnels as $personnel)
+                    <table id="datatable" class="table table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                        <thead>
+                        <tr>
+                            <th>Prenom et Nom</th>
+                            <th>Societé</th>
+                            <th>Direction</th>
+                            <th>Fonction</th>
+                            <th>Telephone</th>
+                            <th scope="col" style="width: 150px;">Action</th>
+                        </tr>
+                        </thead>
+
+                        <tbody>
+                        @foreach($personnels as $personnel)
                             <tr>
-                                @if($personnel->photo != null)
-                                    <td>
-                                        <img src="{{ url(\Illuminate\Support\Facades\Storage::url($personnel->photo))}}" alt="" class="avatar-xs rounded-circle mr-2">
-                                        <a href="#" class="text-body">{{$personnel->prenom}} {{$personnel->nom}}</a>
-                                    </td>
-                                @else
-                                    <td>{{$personnel->prenom}} {{$personnel->nom}}</td>
-                                @endif
+                                <td>{{$personnel->prenom}} {{$personnel->nom}}</td>
                                 <td>{{$personnel->societe}}</td>
                                 <td>{{$personnel->direction}}</td>
                                 <td>{{$personnel->fonction}}</td>
@@ -65,58 +47,42 @@
                                             <a href="{{route('personnels.show', [$personnel->id])}}" class="px-2 text-primary" data-toggle="tooltip" data-placement="top" title="Consulter"><i class="far fa-eye font-size-18"></i></a>
                                         </li>
                                         <li class="list-inline-item">
-                                            <a href="{{route('personnels.formulaireAjoutHabilitation', [$personnel->id])}}" class="px-2 text-primary" data-toggle="tooltip" data-placement="top" title="Ajout Habilitation"><i class="fas fa-fist-raised font-size-18"></i></a>
+                                            <a href="{{route('personnels.formulaireAjoutHabilitation', [$personnel->id])}}" class="px-2 text-warning" data-toggle="tooltip" data-placement="top" title="Ajout Habilitation"><i class="fas fa-fist-raised font-size-18"></i></a>
                                         </li>
                                         <li class="list-inline-item">
-                                            <a href="#" class="px-2 text-primary" data-toggle="tooltip" data-placement="top" title="Edit"><i class="uil uil-pen font-size-18"></i></a>
+                                            <a href="{{route('personnels.edit', [$personnel])}}" class="px-2 text-primary" data-toggle="tooltip" data-placement="top" title="Edit"><i class="uil uil-pen font-size-18"></i></a>
                                         </li>
                                         <li class="list-inline-item">
-                                            <a href="#" class="px-2 text-danger" data-toggle="tooltip" data-placement="top" title="Delete"><i class="uil uil-trash-alt font-size-18"></i></a>
+                                            <a href="{{route('personnel.destroy', [$personnel->id])}}" class="px-2 text-danger" data-toggle="tooltip" data-placement="top" title="Supprimer"><i class="uil uil-trash-alt font-size-18"></i></a>
                                         </li>
+
 
 
 
                                     </ul>
                                 </td>
                             </tr>
-                            @endforeach
+
+                        @endforeach
 
 
-                            </tbody>
-                        </table>
-                    </div>
-                    <div class="row mt-4">
-                        <div class="col-sm-6">
-                            <div>
-                                <p class="mb-sm-0">Showing 1 to 10 of 12 entries</p>
-                            </div>
-                        </div>
-                        <div class="col-sm-6">
-                            <div class="float-sm-right">
-                                <ul class="pagination mb-sm-0">
-                                    <li class="page-item disabled">
-                                        <a href="#" class="page-link"><i class="mdi mdi-chevron-left"></i></a>
-                                    </li>
-                                    <li class="page-item">
-                                        <a href="#" class="page-link">1</a>
-                                    </li>
-                                    <li class="page-item active">
-                                        <a href="#" class="page-link">2</a>
-                                    </li>
-                                    <li class="page-item">
-                                        <a href="#" class="page-link">3</a>
-                                    </li>
-                                    <li class="page-item">
-                                        <a href="#" class="page-link"><i class="mdi mdi-chevron-right"></i></a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
+                        </tbody>
+
+                    </table>
+
+
+
                 </div>
             </div>
-        </div>
-    </div>
-    <!-- end row -->
-@endsection
+        </div> <!-- end col -->
+    </div> <!-- end row -->
 
+
+
+@endsection
+@section('script')
+    <script src="{{ URL::asset('assets/libs/datatables/datatables.min.js')}}"></script>
+    <script src="{{ URL::asset('assets/libs/jszip/jszip.min.js')}}"></script>
+    <script src="{{ URL::asset('assets/libs/pdfmake/pdfmake.min.js')}}"></script>
+    <script src="{{ URL::asset('assets/js/pages/datatables.init.js')}}"></script>
+@endsection

@@ -124,9 +124,10 @@ class PersonnelController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Personnel $personnel)
     {
-        //
+        //$personnel = Personnel::findOrFail($id);
+        return view('personnels.edit', compact('personnel'));
     }
 
     /**
@@ -136,9 +137,40 @@ class PersonnelController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
-        //
+        $request-> validate([
+            'prenom' => 'required|max:50',
+            'nom' => 'required| max: 50',
+            'email' => 'required|email',
+            'telephone' => 'required ',
+            'ville' => 'max: 200',
+            'societe' => 'max: 200',
+            'direction' => 'max: 200',
+            'fonction' => 'required |max: 200',
+
+        ]);
+
+        $personnel = Personnel::findOrFail($request->personnel_id);
+        $personnel->prenom = $request->prenom;
+        $personnel->nom = $request->nom;
+        $personnel->email = $request->email;
+        $personnel->telephone = $request->telephone;
+        $personnel->ville = $request->ville;
+        $personnel->societe = $request->societe;
+        $personnel->direction = $request->direction;
+        $personnel->fonction = $request->fonction;
+
+        $photoPath = $request->file('photo');
+        //dd($photoPath);
+        if ($photoPath != null) {
+            $personnel->photo = $photoPath->store('public/images/photos');
+        }
+
+        $personnel->save();
+        //dd($personnel);
+
+        return redirect()->route('dashboard');
     }
 
     /**
@@ -149,6 +181,9 @@ class PersonnelController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $personnel = Personnel::findOrFail($id);
+        $personnel->delete();
+        return redirect()->route('dashboard');
+
     }
 }

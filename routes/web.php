@@ -24,7 +24,10 @@ Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
 
 //Route Personnel
 Route::resource('personnels', \App\Http\Controllers\PersonnelController::class);
-
+Route::post('personnel/update', [\App\Http\Controllers\PersonnelController::class, 'update'])
+    ->name('personnel.update');
+Route::get('personnel/destroy/{id}', [\App\Http\Controllers\PersonnelController::class, 'destroy'])
+    ->name('personnel.destroy');
 
 //Route Ajout habilitations pour personnel
 Route::get('personnels/ajout-habilitation/{id}', [\App\Http\Controllers\PersonnelController::class, 'formulaireAjoutHabilitation'])

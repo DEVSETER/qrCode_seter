@@ -70,7 +70,8 @@ class HabilitationController extends Controller
      */
     public function edit($id)
     {
-        //
+        $habilitation = Habilitation::findOrFail($id);
+        return view('habilitations.edit', compact('habilitation'));
     }
 
     /**
