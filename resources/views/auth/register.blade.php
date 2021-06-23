@@ -12,7 +12,7 @@
                 <div class="col-lg-12">
                     <div class="text-center">
                         <a href="{{url('index')}}" class="mb-5 d-block auth-logo">
-                            <img src="{{ URL::asset('assets/images/seterLogo.png')}}" alt="" height="30" class="logo logo-dark">
+                            <img src="{{ URL::asset('assets/images/logo2.svg')}}" alt="" height="50" class="logo logo-dark">
                         </a>
                     </div>
                 </div>
@@ -96,7 +96,7 @@
                         </div>
                     </div>
                     <div class="mt-5 text-center">
-                        <p>© 2021 Copyright. SETER INTRANET <i class="mdi mdi-heart text-danger"></i> by DES</p>
+                        <p>© 2021 Copyright. Gestion Habilitation <i class="mdi mdi-heart text-danger"></i> by DSI</p>
                     </div>
                 </div>
             </div>

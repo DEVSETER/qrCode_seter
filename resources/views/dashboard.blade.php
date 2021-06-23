@@ -10,72 +10,49 @@
 
 
     <div class="row">
-        <div class="col-12">
-            <div class="card">
-                <div class="card-body">
-
-                    <h4 class="card-title">Liste Personnel</h4>
-                    <div class="col-md-6">
-                        <div class="mb-3">
-                            <a href="{{route('personnels.create')}}" class="btn btn-success waves-effect waves-light"><i class="mdi mdi-plus mr-2"></i> Ajouter</a>
-                        </div>
+        <div class="col-md-6 col-xl-4">
+            <div class="card" style="border-radius: 20px">
+                <div class="card-body" >
+                    <div class="float-right mt-2">
+                        <i class="fas fa-user-tie fa-5x" style="color: #f2b774"></i>
                     </div>
-
-                    <table id="datatable" class="table table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
-                        <thead>
-                        <tr>
-                            <th>Prenom et Nom</th>
-                            <th>Societé</th>
-                            <th>Direction</th>
-                            <th>Fonction</th>
-                            <th>Telephone</th>
-                            <th scope="col" style="width: 150px;">Action</th>
-                        </tr>
-                        </thead>
-
-                        <tbody>
-                        @foreach($personnels as $personnel)
-                            <tr>
-                                <td>{{$personnel->prenom}} {{$personnel->nom}}</td>
-                                <td>{{$personnel->societe}}</td>
-                                <td>{{$personnel->direction}}</td>
-                                <td>{{$personnel->fonction}}</td>
-                                <td>{{$personnel->telephone}}</td>
-                                <td>
-                                    <ul class="list-inline mb-0">
-                                        <li class="list-inline-item">
-                                            <a href="{{route('personnels.show', [$personnel->id])}}" class="px-2 text-primary" data-toggle="tooltip" data-placement="top" title="Consulter"><i class="far fa-eye font-size-18"></i></a>
-                                        </li>
-                                        <li class="list-inline-item">
-                                            <a href="{{route('personnels.formulaireAjoutHabilitation', [$personnel->id])}}" class="px-2 text-warning" data-toggle="tooltip" data-placement="top" title="Ajout Habilitation"><i class="fas fa-fist-raised font-size-18"></i></a>
-                                        </li>
-                                        <li class="list-inline-item">
-                                            <a href="{{route('personnels.edit', [$personnel])}}" class="px-2 text-primary" data-toggle="tooltip" data-placement="top" title="Edit"><i class="uil uil-pen font-size-18"></i></a>
-                                        </li>
-                                        <li class="list-inline-item">
-                                            <a href="{{route('personnel.destroy', [$personnel->id])}}" class="px-2 text-danger" data-toggle="tooltip" data-placement="top" title="Supprimer"><i class="uil uil-trash-alt font-size-18"></i></a>
-                                        </li>
-
-
-
-
-                                    </ul>
-                                </td>
-                            </tr>
-
-                        @endforeach
-
-
-                        </tbody>
-
-                    </table>
-
-
+                    <div>
+                        <h4 class="mb-1 mt-1" style="color: #f2b774"><span data-plugin="counterup">{{$agents}}</span> agents</h4>
+                        <p class="text-muted mb-0">Nombre d'agents</p>
+                    </div>
 
                 </div>
             </div>
-        </div> <!-- end col -->
-    </div> <!-- end row -->
+        </div> <!-- end col-->
+
+        <div class="col-md-6 col-xl-4">
+            <div class="card" style="border-radius: 20px">
+                <div class="card-body">
+                    <div class="float-right mt-2">
+                        <i class="fas fa-gavel fa-5x" style="color: #f2b774"></i>
+                    </div>
+                    <div>
+                        <h4 class="mb-1 mt-1" style="color: #f2b774"><span data-plugin="counterup">{{$habilitations}}</span> habilitations</h4>
+                        <p class="text-muted mb-0">Nombre d'habilitations</p>
+                    </div>
+                </div>
+            </div>
+        </div> <!-- end col-->
+
+        <div class="col-md-6 col-xl-4">
+            <div class="card" style="border-radius: 20px">
+                <div class="card-body">
+                    <div class="float-right mt-2">
+                        <i class="fas fa-user-clock fa-5x" style="color: #f2b774"></i>
+                    </div>
+                    <div>
+                        <h4 class="mb-1 mt-1" style="color: #f2b774"><span data-plugin="counterup">{{$expired}}</span> habilitations</h4>
+                        <p class="text-muted mb-0">Nombre d'habilitations expirées</p>
+                    </div>
+                </div>
+            </div>
+        </div> <!-- end col-->
+    </div>
 
 
 

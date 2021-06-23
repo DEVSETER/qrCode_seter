@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Habilitation;
+use App\Models\HabilitationPersonnel;
+use App\Models\Personnel;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class HabilitationController extends Controller
@@ -16,6 +19,26 @@ class HabilitationController extends Controller
     {
         $habilitations = Habilitation::all();
         return view('habilitations.index', compact('habilitations'));
+    }
+
+
+    public function aboutToExpire() {
+        $current_date = Carbon::now();
+        $date = Carbon::parse($current_date)->addMonths(6);
+        $test = HabilitationPersonnel::whereDate('date_fin_validite', '<=', $date)->get();
+        //return $test;
+        $values = [];
+        foreach ($test as $item){
+            $habilitation = Habilitation::find($item->habilitation_id);
+            $agent = Personnel::find($item->personnel_id);
+            $obj = (object)['id' => $item->id, 'dateObtention' => $item->date_obtention, 'dateFinValidite' => $item->date_fin_validite,
+                'codeHabilitation' => $habilitation->code, 'libelleHabilitation' => $habilitation->libelle, 'prenom' => $agent->prenom,
+                'nom' => $agent->nom, 'matricule' => $agent->matricule, 'direction' => $agent->direction, 'fonction' => $agent->fonction];
+            array_push($values, $obj);
+        }
+        //return $values;
+
+        return view('habilitations.about-to-expire', compact('values'));
     }
 
     /**

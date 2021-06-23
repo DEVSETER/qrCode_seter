@@ -1,45 +1,70 @@
-<header id="page-topbar" style="background-color: #7f072c">
+<style>
+    .customlogo{
+        position: absolute;
+        top: 0;
+        left: 0;
+        background: white;
+        align-content: center;
+        padding-left: 0.8%;
+        border-radius: 0 0 40px 0;
+        width: 170px;
+        height: 80px;
+
+    }
+
+    .custom-nav .navbar-nav .nav-item .nav-link.active{
+        color: #8b262c;
+    }
+
+    .custom-nav .navbar-nav .nav-item .nav-link.hover{
+        color: #f2b774;
+    }
+
+
+</style>
+
+<header id="page-topbar" style="background-color: #8b262c">
     <div class="navbar-header" >
-        <div class="d-flex">
+        <div class="d-flex customlogo">
             <!-- LOGO -->
-            <div class="navbar-brand-box">
+            <div class="navbar-brand-box " style="margin-top: 20px">
                 <a href="{{url('index')}}" class="logo logo-dark">
                     <span class="logo-sm">
-                        <img src="{{ URL::asset('assets/images/seterLogo.png')}}" alt="" height="30" class="logo logo-dark">
+                        <img src="{{ URL::asset('assets/images/LOGO-SETER.jpg')}}" alt="" height="30" class="logo logo-dark">
                     </span>
                     <span class="logo-lg">
-                        <img src="{{ URL::asset('assets/images/seterLogo.png')}}" alt="" height="30" class="logo logo-dark">
+                        <img src="{{ URL::asset('assets/images/LOGO-SETER.jpg')}}" alt="" height="30" class="logo logo-dark">
                     </span>
                 </a>
 
                 <a href="{{url('index')}}" class="logo logo-light">
                     <span class="logo-sm">
-                        <img src="{{ URL::asset('assets/images/seter-logo2.png')}}" alt="" height="30" >
+                        <img src="{{ URL::asset('assets/images/LOGO-SETER.jpg')}}" alt="" height="30" >
                     </span>
                     <span class="logo-lg">
-                        <img src="{{ URL::asset('assets/images/seter-logo2.png')}}" alt="" height="30" >
+                        <img src="{{ URL::asset('assets/images/LOGO-SETER.jpg')}}" alt="" height="30" >
                     </span>
                 </a>
             </div>
+
+
+
+
+        </div>
+
+
+        <div style="margin-left: 90%">
+
 
             <button type="button" class="btn btn-sm px-3 font-size-16 d-lg-none header-item waves-effect waves-light" data-toggle="collapse" data-target="#topnav-menu-content">
                 <i class="fa fa-fw fa-bars"></i>
             </button>
 
-
-        </div>
-
-        <div class="d-flex">
-
-
-
-
             <div class="dropdown d-inline-block">
                 <button type="button" class="btn header-item waves-effect" id="page-header-user-dropdown"
-                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <img class="rounded-circle header-profile-user" src="{{ URL::asset('assets/images/users/profile picture.jpg')}}"
-                        alt="Header Avatar">
-                    <span class="d-none d-xl-inline-block ml-1 font-weight-medium font-size-15">{{Auth::user()->name}}</span>
+                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+
+                    <span class="d-none d-xl-inline-block ml-1 font-weight-medium font-size-15">{{Auth::user()->prenom}} {{Auth::user()->nom}}</span>
                     <i class="uil-angle-down d-none d-xl-inline-block font-size-15"></i>
                 </button>
                 <div class="dropdown-menu dropdown-menu-right">
@@ -57,9 +82,9 @@
         </div>
     </div>
     <div class="container-fluid">
-        <div class="topnav">
+        <div class="topnav " >
 
-            <nav class="navbar navbar-light navbar-expand-lg topnav-menu">
+            <nav class="navbar navbar-light navbar-expand-lg topnav-menu custom-nav">
 
                 <div class="collapse navbar-collapse" id="topnav-menu-content">
                     <ul class="navbar-nav">
@@ -71,8 +96,20 @@
                         </li>
 
                         <li class="nav-item">
+                            <a class="nav-link" href="{{route('personnels.index')}}">
+                                <i class="fas fa-user-tie mr-2" ></i>  Agents
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
                             <a class="nav-link" href="{{route('habilitations.index')}}">
                                 <i class="fas fa-gavel"></i>  Habilitations
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{route('habilitations.aboutToExpire')}}">
+                                <i class="fas fa-user-clock mr-2"></i>  Habilitations Expirées
                             </a>
                         </li>
 

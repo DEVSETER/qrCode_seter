@@ -18,44 +18,111 @@
             <div class="card">
                 <div class="card-body">
 
-                    <h4 class="card-title">Ajout Personnel</h4>
                     <form action="{{route('personnels.store')}}" method="POST" enctype="multipart/form-data">
                         @csrf
 
-                        <div class="form-group row">
-                            <label for="matricule" class="col-md-2 col-form-label">Matricule</label>
-                            <div class="col-md-10">
-                                <input class="form-control" type="text"  id="matricule"
-                                       name="matricule" value="{{old('matricule')}}">
-                                @error('matricule')
-                                <div class="alert alert-danger">{{ $message }}</div>
-                                @enderror
+
+                            <div class="form-group row">
+                                <label for="prenom" class="col-md-2 col-form-label">Prenom</label>
+                                <div class="col-md-6">
+                                    <input class="form-control" type="text"  id="prenom"
+                                           name="prenom" value="{{old('prenom')}}">
+                                    @error('prenom')
+                                    <div class="alert alert-danger">{{ $message }}</div>
+                                    @enderror
+                                </div>
                             </div>
-                        </div>
+
+                            <div class="form-group row">
+                                <label for="nom" class="col-md-2 col-form-label">Nom</label>
+                                <div class="col-md-6">
+                                    <input class="form-control" type="text"  id="nom"
+                                           name="nom" value="{{old('nom')}}">
+                                    @error('nom')
+                                    <div class="alert alert-danger">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                            </div>
+
+
+
+                            <div class="form-group row">
+                                <label for="matricule" class="col-md-2 col-form-label">Matricule</label>
+                                <div class="col-md-6">
+                                    <input class="form-control" type="text"  id="matricule"
+                                           name="matricule" value="{{old('matricule')}}">
+                                    @error('matricule')
+                                    <div class="alert alert-danger">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                            </div>
+
+
+                            <div class="form-group row">
+                                <label for="email" class="col-md-2 col-form-label">Email</label>
+                                <div class="col-md-6">
+                                    <input class="form-control" type="email"  id="email"
+                                           name="email" value="{{old('email')}}">
+                                    @error('email')
+                                    <div class="alert alert-danger">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                            </div>
+
+
+
+                            <div class="form-group row">
+                                <label for="societe" class="col-md-2 col-form-label">Societe</label>
+                                <div class="col-md-6">
+                                    <input class="form-control" type="text"  id="societe"
+                                           name="societe" value="{{old('societe')}}">
+                                    @error('societe')
+                                    <div class="alert alert-danger">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label for="direction" class="col-md-2 col-form-label">Direction</label>
+                                <div class="col-md-6">
+                                    <input class="form-control" type="text"  id="direction"
+                                           name="direction" value="{{old('direction')}}">
+                                    @error('direction')
+                                    <div class="alert alert-danger">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                            </div>
+
+
+
+                            <div class="form-group row">
+                                <label for="sousDirection" class="col-md-2 col-form-label">Sous Direction</label>
+                                <div class="col-md-6">
+                                    <input class="form-control" type="text"  id="sousDirection"
+                                           name="sousDirection" value="{{old('sousDirection')}}">
+                                    @error('sousDirection')
+                                    <div class="alert alert-danger">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                            </div>
+
+
+
+                            <div class="form-group row">
+                                <label for="fonction" class="col-md-2 col-form-label">Fonction</label>
+                                <div class="col-md-6">
+                                    <input class="form-control" type="text"  id="fonction"
+                                           name="fonction" value="{{old('fonction')}}">
+                                    @error('fonction')
+                                    <div class="alert alert-danger">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                            </div>
+
+
+
 
                         <div class="form-group row">
-                            <label for="prenom" class="col-md-2 col-form-label">Prenom</label>
-                            <div class="col-md-10">
-                                <input class="form-control" type="text"  id="prenom"
-                                       name="prenom" value="{{old('prenom')}}">
-                                @error('prenom')
-                                <div class="alert alert-danger">{{ $message }}</div>
-                                @enderror
-                            </div>
-                        </div>
-
-                        <div class="form-group row">
-                            <label for="nom" class="col-md-2 col-form-label">Nom</label>
-                            <div class="col-md-10">
-                                <input class="form-control" type="text"  id="nom"
-                                       name="nom" value="{{old('nom')}}">
-                                @error('nom')
-                                <div class="alert alert-danger">{{ $message }}</div>
-                                @enderror
-                            </div>
-                        </div>
-
-                        <div class="form-group col-md-4">
                             <label for="photo">Photo de profil</label>
                             <input name="photo" type="file" class="form-control-file"
                                    id="photo" value="{{old('photo')}}">
@@ -64,75 +131,9 @@
                             @enderror
                         </div>
 
-                        <div class="form-group row">
-                            <label for="telephone" class="col-md-2 col-form-label">Telephone</label>
-                            <div class="col-md-10">
-                                <input class="form-control" type="text"  id="telephone"
-                                       name="telephone" value="{{old('telephone')}}">
-                                @error('telephone')
-                                <div class="alert alert-danger">{{ $message }}</div>
-                                @enderror
-                            </div>
-                        </div>
-
-                        <div class="form-group row">
-                            <label for="email" class="col-md-2 col-form-label">Email</label>
-                            <div class="col-md-10">
-                                <input class="form-control" type="email"  id="email"
-                                       name="email" value="{{old('email')}}">
-                                @error('email')
-                                <div class="alert alert-danger">{{ $message }}</div>
-                                @enderror
-                            </div>
-                        </div>
-
-                        <div class="form-group row">
-                            <label for="ville" class="col-md-2 col-form-label">Ville</label>
-                            <div class="col-md-10">
-                                <input class="form-control" type="text"  id="ville"
-                                       name="ville" value="{{old('ville')}}">
-                                @error('ville')
-                                <div class="alert alert-danger">{{ $message }}</div>
-                                @enderror
-                            </div>
-                        </div>
-
-                        <div class="form-group row">
-                            <label for="societe" class="col-md-2 col-form-label">Societe</label>
-                            <div class="col-md-10">
-                                <input class="form-control" type="text"  id="societe"
-                                       name="societe" value="{{old('societe')}}">
-                                @error('societe')
-                                <div class="alert alert-danger">{{ $message }}</div>
-                                @enderror
-                            </div>
-                        </div>
-
-                        <div class="form-group row">
-                            <label for="direction" class="col-md-2 col-form-label">Direction</label>
-                            <div class="col-md-10">
-                                <input class="form-control" type="text"  id="direction"
-                                       name="direction" value="{{old('direction')}}">
-                                @error('direction')
-                                <div class="alert alert-danger">{{ $message }}</div>
-                                @enderror
-                            </div>
-                        </div>
-
-                        <div class="form-group row">
-                            <label for="fonction" class="col-md-2 col-form-label">Fonction</label>
-                            <div class="col-md-10">
-                                <input class="form-control" type="text"  id="fonction"
-                                       name="fonction" value="{{old('fonction')}}">
-                                @error('fonction')
-                                <div class="alert alert-danger">{{ $message }}</div>
-                                @enderror
-                            </div>
-                        </div>
-
 
                         <div class="mt-4">
-                            <button type="submit" class="btn btn-primary w-md">Enregistrer</button>
+                            <button type="submit" class="btn btn-primary w-md ">Ajouter</button>
                         </div>
 
                     </form>

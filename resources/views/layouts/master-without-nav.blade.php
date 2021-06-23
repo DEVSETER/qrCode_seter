@@ -6,7 +6,7 @@
         @include('layouts.head')
   </head>
 
-    <body class="authentication-bg" style="background-color: #7f072c">
+    <body class="authentication-bg" style="background-color: white">
         @yield('content')
         @include('layouts.vendor-scripts')
     </body>

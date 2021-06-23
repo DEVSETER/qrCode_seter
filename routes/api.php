@@ -56,5 +56,10 @@ Route::get('images/{matricule}', function ($matricule)
     return response($file, 200)->header('Content-Type', 'image/jpeg');
 });
 
+Route::get('personnels', function () {
+    $personnels = \App\Models\Personnel::all();
+    return $personnels[0]->prenom;
+});
+
 
 

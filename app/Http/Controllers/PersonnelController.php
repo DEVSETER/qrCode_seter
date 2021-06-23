@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Habilitation;
 use App\Models\HabilitationPersonnel;
 use App\Models\Personnel;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class PersonnelController extends Controller
@@ -17,7 +18,7 @@ class PersonnelController extends Controller
     public function index()
     {
         $personnels = Personnel::all();
-        return view('dashboard', compact('personnels'));
+        return view('personnels.index', compact('personnels'));
     }
 
     /**
@@ -43,8 +44,7 @@ class PersonnelController extends Controller
             'prenom' => 'required|max:50',
             'nom' => 'required| max: 50',
             'email' => 'required|email',
-            'telephone' => 'required ',
-            'ville' => 'max: 200',
+            'sousDirection' => 'max: 200',
             'societe' => 'max: 200',
             'direction' => 'max: 200',
             'fonction' => 'required |max: 200',
@@ -56,8 +56,7 @@ class PersonnelController extends Controller
         $personnel->prenom = $request->prenom;
         $personnel->nom = $request->nom;
         $personnel->email = $request->email;
-        $personnel->telephone = $request->telephone;
-        $personnel->ville = $request->ville;
+        $personnel->sous_direction = $request->sousDirection;
         $personnel->societe = $request->societe;
         $personnel->direction = $request->direction;
         $personnel->fonction = $request->fonction;
@@ -83,7 +82,17 @@ class PersonnelController extends Controller
     public function show($id)
     {
         $personnel = Personnel::find($id);
-        return view('personnels.show', compact('personnel'));
+        $habilitationPersonnel = HabilitationPersonnel::where(['personnel_id' => $personnel->id])->get();
+        $habilitations = [];
+        foreach ($habilitationPersonnel as $item){
+            $hab = Habilitation::find($item->habilitation_id);
+            $obj = (object)['id' => $item->id, 'code' => $hab->code, 'libelle' => $hab->libelle,
+                'dateObtention' => $item->date_obtention, 'dateFinValidite' => $item->date_fin_validite,
+                'status' => $item->status];
+            array_push($habilitations, $obj);
+        }
+
+        return view('personnels.show', compact('personnel', 'habilitations'));
     }
 
 
@@ -109,12 +118,48 @@ class PersonnelController extends Controller
         $habilitationPersonnel->personnel_id = $request->personnel_id;
         $habilitationPersonnel->date_obtention = $request->date_obtention;
         $habilitationPersonnel->date_fin_validite = $request->date_fin_validite;
+        $habilitationPersonnel->status = "actif";
 
         $habilitationPersonnel->save();
 
 
 
         return redirect()->route('personnels.show', [$request->personnel_id]);
+
+    }
+
+    //Formulaire renouvellement habilitation d'un agent
+    public function formulaireRenouvellementHabilitation($id)
+    {
+        $habilitationPersonnel = HabilitationPersonnel::find($id);
+        $date = Carbon::now()->addDays(7)->format('Y-m-d');
+        return view('personnels.renouvellement-habilitation-agent', compact('habilitationPersonnel', 'date'));
+
+    }
+
+    //Renouvellement habilitation agent
+    public function renouvelerHabilitationAgent(Request $request)
+    {
+        $request->validate([
+            'date_fin_validite' => 'required'
+        ]);
+
+        $habilitationPersonnel = HabilitationPersonnel::find($request->habilitationPersonnel);
+        $habilitationPersonnel->date_fin_validite = $request->date_fin_validite;
+        $habilitationPersonnel->status = 'actif';
+        $habilitationPersonnel->save();
+
+        return redirect()->route('dashboard');
+    }
+
+    //Suspendre Habilitation Agent
+    public function suspendreHabilitationAgent($id, Request $request)
+    {
+        $habilitationPersonnel = HabilitationPersonnel::find($id);
+        $habilitationPersonnel->status = "suspendu";
+        $habilitationPersonnel->save();
+
+        return redirect()->refresh();
 
     }
 

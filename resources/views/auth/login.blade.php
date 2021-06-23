@@ -14,7 +14,7 @@
                 <div class="col-lg-12">
                     <div class="text-center">
                         <a href="{{url('login')}}" class="mb-5 d-block auth-logo">
-                            <img src="{{ URL::asset('assets/images/seterLogo.png')}}" alt="" height="30" class="logo logo-dark">
+                            <img src="{{ URL::asset('assets/images/logo2.svg')}}" alt="" height="50" class="logo logo-dark">
 
                         </a>
                     </div>
@@ -22,7 +22,7 @@
             </div>
             <div class="row align-items-center justify-content-center">
                 <div class="col-md-8 col-lg-6 col-xl-5">
-                    <div class="card">
+                    <div class="card border border-warning" style="border-color:  #8b262c">
                         <div class="card-body p-4">
                             <div class="text-center mt-2">
                                 <h5 class="text-primary">Bienvenue !</h5>
@@ -60,7 +60,7 @@
                                         <label class="custom-control-label" for="auth-remember-check">{{ __('Se souvenir de moi') }}</label>
                                     </div>
                                     <div class="mt-3 text-right">
-                                        <x-jet-button class="btn btn-primary w-sm waves-effect waves-light">
+                                        <x-jet-button class="btn btn-warning w-sm waves-effect waves-light">
                                             {{ __('Connexion') }}
                                         </x-jet-button>
                                     </div>
@@ -75,7 +75,7 @@
                         </div>
                     </div>
                     <div class="mt-5 text-center">
-                        <p>© 2021 Copyright. SETER INTRANET <i class="mdi mdi-heart text-danger"></i> by DES</p>
+                        <p>© 2021 Copyright. Gestion Habilitation SETER <i class="mdi mdi-heart text-danger"></i> by DSI</p>
                     </div>
                 </div>
             </div>

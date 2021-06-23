@@ -50,21 +50,10 @@
                             </div>
 
                             <div class="mt-4">
-                                <p class="mb-1">Telephone :</p>
-                                <h5 class="font-size-16">{{$personnel->telephone}}</h5>
-                            </div>
-                            <div class="mt-4">
                                 <p class="mb-1">Email :</p>
                                 <h5 class="font-size-16">{{$personnel->email}}</h5>
                             </div>
-                            <div class="mt-4">
-                                <p class="mb-1">Ville :</p>
-                                <h5 class="font-size-16">{{$personnel->ville}}</h5>
-                            </div>
-                            <div class="mt-4">
-                                <p class="mb-1">Societe :</p>
-                                <h5 class="font-size-16">{{$personnel->societe}}</h5>
-                            </div>
+
                             <div class="mt-4">
                                 <p class="mb-1">Direction :</p>
                                 <h5 class="font-size-16">{{$personnel->direction}}</h5>
@@ -112,17 +101,30 @@
                                             <th>Libellé</th>
                                             <th>Date Fin Validité</th>
                                             <th>Date Obtention</th>
+                                            <th>Action</th>
 
                                         </tr>
                                         </thead>
 
                                         <tbody>
-                                        @foreach($personnel->habilitations as $habilitation)
+                                        @foreach($habilitations as $habilitation)
                                             <tr>
                                                 <td>{{$habilitation->code}}</td>
                                                 <td>{{$habilitation->libelle}}</td>
-                                                <td>{{$habilitation->pivot->date_fin_validite}}</td>
-                                                <td>{{$habilitation->pivot->date_obtention}}</td>
+                                                <td>{{$habilitation->dateFinValidite}}</td>
+                                                <td>{{$habilitation->dateObtention}}</td>
+                                                <td style="width: 10%">
+                                                    <ul class="list-inline mb-0">
+                                                        <li class="list-inline-item">
+                                                            <a href="{{route('habilitation.renouveler', [$habilitation->id])}}" class="px-2 text-warning" data-toggle="tooltip" data-placement="top" title="Renouveler"><i class="fas fa-fist-raised font-size-18"></i></a>
+                                                        </li>
+
+                                                        <li class="list-inline-item">
+                                                            <a href="{{route('habilitation.suspendre', [$habilitation->id])}}" class="px-2 text-primary" data-toggle="tooltip" data-placement="top" title="Suspendre"><i class="far fa-eye font-size-18"></i></a>
+                                                        </li>
+                                                    </ul>
+                                                </td>
+
 
                                             </tr>
                                         @endforeach
