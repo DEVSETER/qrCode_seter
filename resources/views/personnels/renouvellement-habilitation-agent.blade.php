@@ -26,7 +26,7 @@
             <div class="card">
                 <div class="card-body">
 
-                    <h4 class="card-title">Ajout habilitations personnel</h4>
+                    <h4 class="card-title">Renouvellement habilitation personnel</h4>
                     <form action="{{route('habilitation.renouvelerPost')}}"
                           method="POST" class="custom-validation">
 
@@ -55,8 +55,8 @@
 
 
 
-                        <div class="mt-4">
-                            <button type="submit" class="btn btn-primary w-md">Ajouter</button>
+                        <div class="mt-4 text-right">
+                            <button type="submit" class="btn btn-primary w-md">Renouveler</button>
                         </div>
                     </form>
                 </div>

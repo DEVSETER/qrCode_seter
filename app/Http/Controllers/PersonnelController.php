@@ -61,12 +61,15 @@ class PersonnelController extends Controller
         $personnel->direction = $request->direction;
         $personnel->fonction = $request->fonction;
 
-        $photoPath = $request->file('photo');
+        $photo = $request->file('photo');
         //dd($photoPath);
-        if ($photoPath != null) {
-            $personnel->photo = $photoPath->store('public/images/photos');
+        if ($photo != null) {
+            $name = $photo->getClientOriginalName();
+            $path = $photo->storeAs('ressources', $name, 'public');
+            $photo->move(public_path('ressources'),$name);
+            $personnel->photo = $path;
         }else {
-            $personnel->photo = " ";
+            $personnel->photo = null;
         }
         $personnel->save();
 
@@ -149,17 +152,17 @@ class PersonnelController extends Controller
         $habilitationPersonnel->status = 'actif';
         $habilitationPersonnel->save();
 
-        return redirect()->route('dashboard');
+        return redirect()->route('personnels.show', [$habilitationPersonnel->personnel_id]);
     }
 
     //Suspendre Habilitation Agent
-    public function suspendreHabilitationAgent($id, Request $request)
+    public function suspendreHabilitationAgent(Request $request)
     {
-        $habilitationPersonnel = HabilitationPersonnel::find($id);
+        $habilitationPersonnel = HabilitationPersonnel::find($request->habPersonnel);
         $habilitationPersonnel->status = "suspendu";
         $habilitationPersonnel->save();
 
-        return redirect()->refresh();
+        return redirect()->route('personnels.show', [$habilitationPersonnel->personnel_id]);
 
     }
 

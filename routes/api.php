@@ -26,25 +26,26 @@ Route::get('apiPersonnels', function () {
 });
 
 Route::get('personnel/{matricule}', function ($matricule) {
-    //return \App\Models\Personnel::findOrFail($id);
-    $personnel = \App\Models\Personnel::where(['matricule' => $matricule])->firstOrFail();
-    $habilitations =  $personnel->habilitations;
-    //return $habilitations[0]->pivot->date_obtention;
-
-    $habilitationArray = [];
-    foreach ($habilitations as $habilitation){
-        $habilitationObject = (object)['code' => $habilitation->code, 'libelle' => $habilitation->libelle,
-            'dateObtention' => $habilitation->pivot->date_obtention,
-            'dateFinValidite' => $habilitation->pivot->date_fin_validite];
-        array_push($habilitationArray, $habilitationObject);
+    $agent = \App\Models\Personnel::where(['matricule' => $matricule])->firstOrFail();
+    $habAgent = \App\Models\HabilitationPersonnel::where(['personnel_id' => $agent->id])->get();
+    $habilitations = [];
+    foreach ($habAgent as $item){
+        $hab = \App\Models\Habilitation::find($item->habilitation_id);
+        if ($item->date_fin_validite < \Carbon\Carbon::now()){
+            $expired = true;
+        }else {
+            $expired = false;
+        }
+        $obj = (object)['code' => $hab->code, 'libelle' => $hab->libelle,
+                'dateObtention' => $item->date_obtention, 'dateFinValidite' => $item->date_fin_validite,
+                'status' => $item->status, 'expired' => $expired];
+        array_push($habilitations, $obj);
     }
 
-    //return $habilitationArray;
-
-    return ['matricule'=>$personnel->matricule, 'prenom' => $personnel->prenom,
-        'nom' => $personnel->nom, 'photo' => $personnel->photo ,'telephone' => $personnel->telephone, 'email' => $personnel->email,
-         'ville' => $personnel->ville, 'societe' => $personnel->societe, 'direction' => $personnel->direction,
-        'fonction' => $personnel->fonction, 'habilitations' => $habilitationArray];
+    return ['matricule'=>$agent->matricule, 'prenom' => $agent->prenom,
+        'nom' => $agent->nom,  'email' => $agent->email, 'sousDirection' => $agent->sous_direction,
+        'societe' => $agent->societe, 'direction' => $agent->direction,
+        'fonction' => $agent->fonction, 'habilitations' => $habilitations];
 
 
 });
@@ -52,7 +53,7 @@ Route::get('personnel/{matricule}', function ($matricule) {
 Route::get('images/{matricule}', function ($matricule)
 {
     $personnel = \App\Models\Personnel::where(['matricule' => $matricule])->firstOrFail();
-    $file = \Illuminate\Support\Facades\Storage::get($personnel->photo);
+    $file = \Illuminate\Support\Facades\Storage::get('public/'.$personnel->photo);
     return response($file, 200)->header('Content-Type', 'image/jpeg');
 });
 

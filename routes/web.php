@@ -56,7 +56,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('habilitation/renouveler/post', [\App\Http\Controllers\PersonnelController::class, 'renouvelerHabilitationAgent'])
         ->name('habilitation.renouvelerPost');
 
-    Route::post('habilitation/suspendre/{id}', [\App\Http\Controllers\PersonnelController::class, 'suspendreHabilitationAgent'])
+    Route::post('habilitation/suspendre', [\App\Http\Controllers\PersonnelController::class, 'suspendreHabilitationAgent'])
         ->name('habilitation.suspendre');
 });
 

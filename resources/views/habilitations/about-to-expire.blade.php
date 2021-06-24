@@ -46,11 +46,15 @@
                                 <td style="width: 10%">
                                     <ul class="list-inline mb-0">
                                         <li class="list-inline-item">
-                                            <a href="{{route('personnels.formulaireAjoutHabilitation', [$value->id])}}" class="px-2 text-warning" data-toggle="tooltip" data-placement="top" title="Renouveler Habilitation"><i class="fas fa-fist-raised font-size-18"></i></a>
+                                            <a href="{{route('habilitation.renouveler', [$value->id])}}" class="px-2 text-warning" data-toggle="tooltip" data-placement="top" title="Renouveler"><i class="fas fa-recycle font-size-18"></i></a>
                                         </li>
 
                                         <li class="list-inline-item">
-                                            <a href="{{route('personnels.show', [$value->id])}}" class="px-2 text-primary" data-toggle="tooltip" data-placement="top" title="Suspendre"><i class="far fa-eye font-size-18"></i></a>
+                                            <form action="{{route('habilitation.suspendre')}}" method="post">
+                                                @csrf
+                                                <input type="hidden" name="habPersonnel" value="{{$value->id}}">
+                                                <button type="submit" class="btn btn-link px-2 text-danger" data-toggle="tooltip" title="Suspendre"><i class="fas fa-ban font-size-18"></i></button>
+                                            </form>
                                         </li>
                                     </ul>
                                 </td>
