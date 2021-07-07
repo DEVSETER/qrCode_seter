@@ -47,6 +47,8 @@ Route::group(['middleware' => 'auth'], function () {
 
 //Route Habilitation
     Route::resource('habilitations', \App\Http\Controllers\HabilitationController::class);
+    Route::post('habilitations/modifier', [\App\Http\Controllers\HabilitationController::class, 'update'])
+        ->name('habilitations.modification');
 
     Route::get('about-to-expire', [\App\Http\Controllers\HabilitationController::class, 'aboutToExpire'])
         ->name('habilitations.aboutToExpire');

@@ -38,7 +38,7 @@
                             <div class="col-md-10">
                                 <input class="form-control" type="text"  id="libelle"
                                        name="libelle" value="{{old('libelle')}}">
-                                @error('prenom')
+                                @error('libelle')
                                 <div class="alert alert-danger">{{ $message }}</div>
                                 @enderror
                             </div>

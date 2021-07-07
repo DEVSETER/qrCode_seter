@@ -61,7 +61,7 @@ class HabilitationController extends Controller
     {
         $request-> validate([
             'code' => 'required|unique:habilitations| max: 50',
-            'libelle' => 'required|max:50'
+            'libelle' => 'required|max:100'
 
         ]);
 
@@ -101,12 +101,16 @@ class HabilitationController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
-        //
+        $habilitation = Habilitation::find($request->hab);
+        $habilitation->libelle = $request->libelle;
+        $habilitation->save();
+
+        return redirect()->route('habilitations.index');
     }
 
     /**

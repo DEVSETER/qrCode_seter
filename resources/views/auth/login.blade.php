@@ -55,10 +55,7 @@
                                         @enderror
                                     </div>
 
-                                    <div class="custom-control custom-checkbox">
-                                        <input type="checkbox" class="custom-control-input" id="auth-remember-check" name="remember" {{ old('remember') ? 'checked' : '' }}>
-                                        <label class="custom-control-label" for="auth-remember-check">{{ __('Se souvenir de moi') }}</label>
-                                    </div>
+
                                     <div class="mt-3 text-right">
                                         <x-jet-button class="btn btn-warning w-sm waves-effect waves-light">
                                             {{ __('Connexion') }}
@@ -66,9 +63,7 @@
                                     </div>
 
 
-                                    <div class="mt-4 text-center">
-                                        <p class="mb-0">Vous n'avez pas de compte ? <a href="{{url('register')}}" class="font-weight-medium text-primary"> Inscrivez-vous maintenant! </a> </p>
-                                    </div>
+
                                 </form>
 
                             </div>

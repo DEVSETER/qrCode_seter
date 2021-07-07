@@ -109,7 +109,7 @@
 
                         <li class="nav-item">
                             <a class="nav-link" href="{{route('habilitations.aboutToExpire')}}">
-                                <i class="fas fa-user-clock mr-2"></i>  Habilitations Expirées
+                                <i class="fas fa-user-clock mr-2"></i>  Habilitations arrivant à expiration
                             </a>
                         </li>
 

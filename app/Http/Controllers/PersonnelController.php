@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Action;
 use App\Models\Habilitation;
 use App\Models\HabilitationPersonnel;
 use App\Models\Personnel;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class PersonnelController extends Controller
 {
@@ -40,14 +42,14 @@ class PersonnelController extends Controller
     public function store(Request $request)
     {
         $request-> validate([
-            'matricule' => 'required| max: 50',
+            'matricule' => 'required|unique:personnels|max: 50',
             'prenom' => 'required|max:50',
             'nom' => 'required| max: 50',
             'email' => 'required|email',
-            'sousDirection' => 'max: 200',
-            'societe' => 'max: 200',
-            'direction' => 'max: 200',
-            'fonction' => 'required |max: 200',
+            'sousDirection' => 'max: 100',
+            'societe' => 'max: 50',
+            'direction' => 'max: 100',
+            'fonction' => 'required |max: 100',
 
         ]);
 
@@ -73,7 +75,7 @@ class PersonnelController extends Controller
         }
         $personnel->save();
 
-        return redirect()->route('dashboard');
+        return redirect()->route('personnels.index');
     }
 
     /**
@@ -95,7 +97,9 @@ class PersonnelController extends Controller
             array_push($habilitations, $obj);
         }
 
-        return view('personnels.show', compact('personnel', 'habilitations'));
+        $actions = Action::where(['personnel' => $personnel->id])->get();
+
+        return view('personnels.show', compact('personnel', 'habilitations', 'actions'));
     }
 
 
@@ -125,6 +129,15 @@ class PersonnelController extends Controller
 
         $habilitationPersonnel->save();
 
+        $habilitation = Habilitation::find($request->habilitation);
+
+        $action = new Action();
+        $action->habilitation_personnel_id = $habilitationPersonnel->id;
+        $action->libelle = "Obtention Habilitation: ".$habilitation->libelle;
+        $action->acteur = Auth::user()->prenom.' '.Auth::user()->nom;
+        $action->personnel = $request->personnel_id;
+        $action->save();
+
 
 
         return redirect()->route('personnels.show', [$request->personnel_id]);
@@ -152,6 +165,15 @@ class PersonnelController extends Controller
         $habilitationPersonnel->status = 'actif';
         $habilitationPersonnel->save();
 
+        $habilitation = Habilitation::find($habilitationPersonnel->habilitation_id);
+
+        $action = new Action();
+        $action->habilitation_personnel_id = $request->habilitationPersonnel;
+        $action->libelle = "Renouvellement habilitation: ".$habilitation->libelle;
+        $action->acteur = Auth::user()->prenom.' '.Auth::user()->nom;
+        $action->personnel = $habilitationPersonnel->personnel_id;
+        $action->save();
+
         return redirect()->route('personnels.show', [$habilitationPersonnel->personnel_id]);
     }
 
@@ -161,6 +183,16 @@ class PersonnelController extends Controller
         $habilitationPersonnel = HabilitationPersonnel::find($request->habPersonnel);
         $habilitationPersonnel->status = "suspendu";
         $habilitationPersonnel->save();
+
+        $habilitation = Habilitation::find($habilitationPersonnel->habilitation_id);
+
+        $action = new Action();
+        $action->habilitation_personnel_id = $request->habPersonnel;
+        $action->libelle = "Suspension habilitation: ".$habilitation->libelle;
+        $action->acteur = Auth::user()->prenom.' '.Auth::user()->nom;
+        $action->personnel = $habilitationPersonnel->personnel_id;
+        $action->save();
+
 
         return redirect()->route('personnels.show', [$habilitationPersonnel->personnel_id]);
 

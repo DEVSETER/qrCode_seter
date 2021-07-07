@@ -17,7 +17,7 @@
                         <i class="fas fa-user-tie fa-5x" style="color: #f2b774"></i>
                     </div>
                     <div>
-                        <h4 class="mb-1 mt-1" style="color: #f2b774"><span data-plugin="counterup">{{$agents}}</span> agents</h4>
+                        <h4 class="mb-1 mt-1" style="color: #f2b774"><span data-plugin="counterup">{{$agents}}</span> agent(s)</h4>
                         <p class="text-muted mb-0">Nombre d'agents</p>
                     </div>
 
@@ -32,7 +32,7 @@
                         <i class="fas fa-gavel fa-5x" style="color: #f2b774"></i>
                     </div>
                     <div>
-                        <h4 class="mb-1 mt-1" style="color: #f2b774"><span data-plugin="counterup">{{$habilitations}}</span> habilitations</h4>
+                        <h4 class="mb-1 mt-1" style="color: #f2b774"><span data-plugin="counterup">{{$habilitations}}</span> habilitation(s)</h4>
                         <p class="text-muted mb-0">Nombre d'habilitations</p>
                     </div>
                 </div>
@@ -46,7 +46,7 @@
                         <i class="fas fa-user-clock fa-5x" style="color: #f2b774"></i>
                     </div>
                     <div>
-                        <h4 class="mb-1 mt-1" style="color: #f2b774"><span data-plugin="counterup">{{$expired}}</span> habilitations</h4>
+                        <h4 class="mb-1 mt-1" style="color: #f2b774"><span data-plugin="counterup">{{$expired}}</span> habilitation(s)</h4>
                         <p class="text-muted mb-0">Nombre d'habilitations expirées</p>
                     </div>
                 </div>

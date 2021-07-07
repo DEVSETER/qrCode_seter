@@ -146,6 +146,25 @@
                                 </div>
                             </div>
                         </div>
+
+
+                    </div>
+
+                    <div>
+                        <h5 class="font-size-16 mb-4">Journal des actions</h5>
+
+                        <ul class="activity-feed mb-0 pl-2">
+                            @foreach($actions as $action)
+                                <li class="feed-item">
+                                    <div class="feed-item-list">
+                                        <p class="text-muted mb-1">{{\Carbon\Carbon::make($action->created_at)->format('d M Y H:i')}}</p>
+                                        <h5 class="font-size-16">{{$action->libelle}}</h5>
+                                        <p>Par: {{$action->acteur}}</p>
+                                    </div>
+                                </li>
+                            @endforeach
+
+                        </ul>
                     </div>
 
 

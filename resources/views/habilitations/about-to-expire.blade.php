@@ -26,8 +26,8 @@
                             <th scope="col">Fonction</th>
                             <th scope="col">Code</th>
                             <th scope="col">Libellé</th>
-                            <th scope="col">Date Obtention</th>
                             <th scope="col">Date Fin Validité</th>
+                            <th scope="col">Date Obtention</th>
                             <th scope="col">Action</th>
                         </tr>
                         </thead>
@@ -41,8 +41,9 @@
                                 <td>{{$value->fonction}} </td>
                                 <td>{{$value->codeHabilitation}}</td>
                                 <td>{{$value->libelleHabilitation}}</td>
-                                <td>{{$value->dateObtention}}</td>
                                 <td>{{$value->dateFinValidite}}</td>
+                                <td>{{$value->dateObtention}}</td>
+
                                 <td style="width: 10%">
                                     <ul class="list-inline mb-0">
                                         <li class="list-inline-item">
