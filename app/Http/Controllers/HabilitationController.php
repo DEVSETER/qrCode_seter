@@ -7,6 +7,7 @@ use App\Models\HabilitationPersonnel;
 use App\Models\Personnel;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class HabilitationController extends Controller
 {
@@ -17,6 +18,9 @@ class HabilitationController extends Controller
      */
     public function index()
     {
+        if (session('success_message')){
+            Alert::success('Réussi', session('success_message'));
+        }
         $habilitations = Habilitation::all();
         return view('habilitations.index', compact('habilitations'));
     }
@@ -71,7 +75,7 @@ class HabilitationController extends Controller
 
         $habilitation->save();
 
-        return redirect()->route('habilitations.index');
+        return redirect()->route('habilitations.index')->withSuccessMessage( $habilitation->libelle.' '.'a été ajouté avec succès');
     }
 
     /**
@@ -110,7 +114,7 @@ class HabilitationController extends Controller
         $habilitation->libelle = $request->libelle;
         $habilitation->save();
 
-        return redirect()->route('habilitations.index');
+        return redirect()->route('habilitations.index')->withSuccessMessage( $habilitation->code.' '.'a été modifié avec succès');
     }
 
     /**

@@ -10,6 +10,7 @@
 
 
     <div class="row">
+
         <div class="col-12">
             <div class="card">
                 <div class="card-body">
@@ -47,10 +48,23 @@
                                         <li class="list-inline-item">
                                             <a href="{{route('personnels.formulaireAjoutHabilitation', [$personnel->id])}}" class="px-2 text-warning" data-toggle="tooltip" data-placement="top" title="Ajout Habilitation"><i class="fas fa-plus font-size-18"></i></a>
                                         </li>
+                                        <li class="list-inline-item">
+                                            <a href="{{route('personnels.edit', [$personnel->id])}}" class="px-2 text-secondary" data-toggle="tooltip" data-placement="top" title="Ajout Habilitation"><i class="fas fa-pencil-alt font-size-18"></i></a>
+                                        </li>
+                                        <li class="list-inline-item">
+                                            <a class="px-2 text-danger" data-toggle="modal"  data-target="#staticBackdrop" data-prenom="{{$personnel->prenom}}"
+                                               data-nom="{{$personnel->nom}}" title="Supprimer">
+                                                <i class="fas fa-trash font-size-18"></i>
+                                            </a>
+
+                                        </li>
+
 
                                     </ul>
                                 </td>
                             </tr>
+
+
 
                         @endforeach
 
@@ -59,6 +73,28 @@
 
                     </table>
 
+
+                    <div class="modal fade" id="staticBackdrop" data-backdrop="static"  role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered" role="document">
+                            <div class="modal-content">
+
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="staticBackdropLabel">Suppression</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <p>Voulez vous vraiment supprimer l'agent  ?</p>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-light" data-dismiss="modal">Annuler</button>
+                                    <button type="button" class="btn btn-danger">Supprimer</button>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
 
 
                 </div>

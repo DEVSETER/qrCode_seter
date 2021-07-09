@@ -10,6 +10,8 @@
 
 
     <div class="row">
+
+
         <div class="col-md-6 col-xl-4">
             <div class="card" style="border-radius: 20px">
                 <div class="card-body" >

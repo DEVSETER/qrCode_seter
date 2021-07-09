@@ -20,18 +20,22 @@
                     @yield('content')
                 </div> <!-- content -->
             </div>
-            @include('layouts.footer')    
+            @include('layouts.footer')
         </div>
         <!-- ============================================================== -->
         <!-- End Right content here -->
         <!-- ============================================================== -->
     </div>
     <!-- END wrapper -->
-    
+
     <!-- Right Sidebar -->
     @include('layouts.right-sidebar')
     <!-- END Right Sidebar -->
 
-    @include('layouts.vendor-scripts')    
+    <!-- Sweet Alert -->
+    @include('sweetalert::alert')
+
+
+    @include('layouts.vendor-scripts')
     </body>
 </html>

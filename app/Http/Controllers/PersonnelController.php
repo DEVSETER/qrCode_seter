@@ -9,6 +9,7 @@ use App\Models\Personnel;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class PersonnelController extends Controller
 {
@@ -20,6 +21,11 @@ class PersonnelController extends Controller
     public function index()
     {
         $personnels = Personnel::all();
+
+        if (session('success_message')){
+            Alert::success('Réussi', session('success_message'));
+        }
+
         return view('personnels.index', compact('personnels'));
     }
 
@@ -75,7 +81,7 @@ class PersonnelController extends Controller
         }
         $personnel->save();
 
-        return redirect()->route('personnels.index');
+        return redirect()->route('personnels.index')->withSuccessMessage('Agent '. $personnel->prenom.' '.$personnel->nom.' ajouté avec succès');
     }
 
     /**
@@ -86,6 +92,9 @@ class PersonnelController extends Controller
      */
     public function show($id)
     {
+        if (session('success_message')){
+            Alert::success('Réussi', session('success_message'));
+        }
         $personnel = Personnel::find($id);
         $habilitationPersonnel = HabilitationPersonnel::where(['personnel_id' => $personnel->id])->get();
         $habilitations = [];
@@ -129,6 +138,7 @@ class PersonnelController extends Controller
 
         $habilitationPersonnel->save();
 
+        $personnel = Personnel::find($request->personnel_id);
         $habilitation = Habilitation::find($request->habilitation);
 
         $action = new Action();
@@ -140,7 +150,8 @@ class PersonnelController extends Controller
 
 
 
-        return redirect()->route('personnels.show', [$request->personnel_id]);
+        return redirect()->route('personnels.show', [$request->personnel_id])->withSuccessMessage($habilitation->code.' a été affecté à l\'agent '
+            .$personnel->prenom .' '.$personnel->nom .' avec succès');
 
     }
 
@@ -250,7 +261,7 @@ class PersonnelController extends Controller
         $personnel->save();
         //dd($personnel);
 
-        return redirect()->route('dashboard');
+        return redirect()->route('personnels.index')->withSuccessMessage('Agent '. $personnel->prenom.' '.$personnel->nom.' Modifié avec succès');
     }
 
     /**
@@ -263,7 +274,7 @@ class PersonnelController extends Controller
     {
         $personnel = Personnel::findOrFail($id);
         $personnel->delete();
-        return redirect()->route('dashboard');
+        return redirect()->route('personnels.index')->withErrors(['message', 'Agent '.$personnel->prenom.' '.$personnel->nom.' a été supprimé avec succès']);
 
     }
 }

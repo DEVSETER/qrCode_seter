@@ -36,7 +36,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::resource('personnels', \App\Http\Controllers\PersonnelController::class);
     Route::post('personnel/update', [\App\Http\Controllers\PersonnelController::class, 'update'])
         ->name('personnel.update');
-    Route::get('personnel/destroy/{id}', [\App\Http\Controllers\PersonnelController::class, 'destroy'])
+    Route::post('personnel/destroy', [\App\Http\Controllers\PersonnelController::class, 'destroy'])
         ->name('personnel.destroy');
 
 //Route Ajout habilitations pour personnel
