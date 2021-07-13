@@ -86,14 +86,7 @@
                                     </div>
                                 </div>
 
-                                <div class="form-group row">
-                                    <label for="photo">Photo de profil</label>
-                                    <input name="photo" type="file" class="form-control-file"
-                                           id="photo" value="{{old('photo')}}">
-                                    @error('photo')
-                                    <div class="error">{{ $message }}</div>
-                                    @enderror
-                                </div>
+
 
 
                             </div>
@@ -191,7 +184,7 @@
                     </div>
 
                     <div class="card">
-                        <a href="#addproduct-img-collapse" class="text-dark" data-toggle="collapse" aria-expanded="true" aria-controls="addproduct-img-collapse">
+                        <a href="#addproduct-img-collapse2" class="text-dark" data-toggle="collapse" aria-expanded="true" aria-controls="addproduct-img-collapse2">
                             <div class="p-4">
 
                                 <div class="media align-items-center">
@@ -212,17 +205,15 @@
                             </div>
                         </a>
 
-                        <div id="addproduct-img-collapse" class="collapse show" data-parent="#addproduct-img-collapse">
+                        <div id="addproduct-img-collapse2" class="collapse" data-parent="#addproduct-img-collapse2">
                             <div class="p-4 border-top">
-                                <div class="form-group">
-                                    <input type="file" name="images[]" multiple class="form-control" accept="image/*">
-                                    @if ($errors->has('files'))
-                                        @foreach ($errors->get('files') as $error)
-                                            <span class="invalid-feedback" role="alert">
-                                                <strong>{{ $error }}</strong>
-                                            </span>
-                                        @endforeach
-                                    @endif
+                                <div class="form-group row">
+                                    <label for="photo">Photo de profil</label>
+                                    <input name="photo" type="file" class="form-control-file"
+                                           id="photo" value="{{old('photo')}}">
+                                    @error('photo')
+                                    <div class="error">{{ $message }}</div>
+                                    @enderror
                                 </div>
 
                             </div>
@@ -231,8 +222,8 @@
                 </div>
                 <div class="row mb-4">
                     <div class="col text-right">
-                        <button type="reset" class="btn btn-danger"> <i class="uil uil-times mr-1"></i> Cancel </button>
-                        <button type="submit" class="btn btn-success"> <i class="uil uil-file-alt mr-1"></i> Save </button>
+
+                        <button type="submit" class="btn btn-success"> <i class="uil uil-file-alt mr-1"></i> Enregistrr </button>
                     </div> <!-- end col -->
                 </div> <!-- end row-->
             </form>
@@ -251,11 +242,5 @@
     <script src="{{ URL::asset('assets/js/pages/form-editor.init.js')}}"></script>
 
 
-    <script>
-        ClassicEditor
-            .create( document.querySelector( '#classic-editor' ) )
-            .catch( error => {
-                console.error( error );
-            } );
-    </script>
+
 @endsection

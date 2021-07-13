@@ -125,6 +125,8 @@ class HabilitationController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $habilitation = Habilitation::find($id);
+        $habilitation->delete();
+        return redirect()->route('habilitations.index')->withSuccessMessage('Habilitation '.$habilitation->code. ' supprimé avec succès');
     }
 }

@@ -1,9 +1,13 @@
 @extends('layouts.master-layouts')
 @section('title')
-    Agents
+    Agents Supprimés
 @endsection
 
-
+<link href="{{ URL::asset('assets/css/bootstrap.min.css')}}" id="bootstrap-style" rel="stylesheet" type="text/css" />
+<!-- Icons Css -->
+<link href="{{ URL::asset('assets/css/icons.min.css')}}" id="icons-style" rel="stylesheet" type="text/css" />
+<!-- App Css-->
+<link href="{{ URL::asset('assets/css/app.min.css')}}" id="app-style" rel="stylesheet" type="text/css" />
 <!-- DataTables -->
 <link href="{{ URL::asset('assets/libs/datatables/datatables.min.css')}}" rel="stylesheet" type="text/css" />
 
@@ -35,7 +39,7 @@
                         </thead>
 
                         <tbody>
-                        @foreach($personnels as $personnel)
+                        @foreach($agents as $personnel)
                             <tr>
                                 <td style="width: 5%">{{$personnel->matricule}}</td>
                                 <td style="width: 30%">{{$personnel->prenom}} {{$personnel->nom}}</td>
@@ -49,10 +53,8 @@
                                             </a>
 
                                             <div class="dropdown-menu">
-                                                <a href="{{route('personnels.show', [$personnel->id])}}" class="px-2 text-primary" data-toggle="tooltip" data-placement="top" title="Consulter"><i class="far fa-eye font-size-18"></i></a>
-                                                <a href="{{route('personnels.formulaireAjoutHabilitation', [$personnel->id])}}" class="px-2 text-warning" data-toggle="tooltip" data-placement="top" title="Ajout Habilitation"><i class="fas fa-plus font-size-18"></i></a>
-                                                <a href="{{route('personnels.edit', [$personnel->id])}}" class="px-2 text-secondary" data-toggle="tooltip" data-placement="top" title="Editer"><i class="fas fa-pencil-alt font-size-18"></i></a>
-                                                <a onclick="deleteConfirmation({{$personnel}})"  class="px-2 text-secondary" data-toggle="tooltip" data-placement="top" title="Supprimer"><i class="far fa-trash-alt font-size-18 btn btn-danger"></i></a>
+                                                <a href="{{route('personnel.restaurer', [$personnel->id])}}" class="px-2 text-secondary" data-toggle="tooltip" data-placement="top" title="Editer"><i class="fas fa-pencil-alt font-size-18"></i></a>
+
                                             </div>
                                         </div>
                                     </div>
@@ -86,53 +88,7 @@
     <script src="{{ URL::asset('assets/libs/pdfmake/pdfmake.min.js')}}"></script>
     <script src="{{ URL::asset('assets/js/pages/datatables.init.js')}}"></script>
 
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/7.2.0/sweetalert2.min.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/7.2.0/sweetalert2.all.min.js"></script>
 
-
-
-    <script>
-        function deleteConfirmation(personnel) {
-            swal({
-                title: "Supprimer?",
-                text: "Voulez vous vraiment supprimer l'agent " + personnel.prenom + ' '+ personnel.nom + ' ?',
-                type: "warning",
-                showCancelButton: !0,
-                confirmButtonText: "Oui, supprimer",
-                cancelButtonText: "No, cancel!",
-                reverseButtons: !0
-            }).then(function (e) {
-
-                if (e.value === true) {
-
-                    $.ajax({
-                        type: 'GET',
-                        url: "personnel/destroy/" + personnel.id,
-                        dataType: 'JSON',
-
-                        success: function (results) {
-                            console.log(results);
-
-                            if (results.success === true) {
-                                swal("Done!", results.message, "success");
-
-                            } else {
-                                swal("Error!", results.message, "error");
-                            }
-                        },
-
-                    });
-                    location.reload();
-
-                } else {
-                    e.dismiss;
-                }
-
-            }, function (dismiss) {
-                return false;
-            })
-        }
-    </script>
 
 
 @endsection

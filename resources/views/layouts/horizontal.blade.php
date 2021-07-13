@@ -69,8 +69,9 @@
                 </button>
                 <div class="dropdown-menu dropdown-menu-right">
                     <!-- item-->
-                    <a class="dropdown-item" href="javascript:void();" onclick="event.preventDefault(); document.getElementById('logout-form').submit();"><i class="uil uil-sign-out-alt font-size-18 align-middle mr-1 text-muted"></i> <span class="align-middle">Se Deconnecter</span></a>
 
+                    <a class="dropdown-item" href="javascript:void();" onclick="event.preventDefault(); document.getElementById('logout-form').submit();"><i class="uil uil-sign-out-alt font-size-18 align-middle mr-1 text-muted"></i> <span class="align-middle">Se Deconnecter</span></a>
+                    <a class="dropdown-item" href=""></a>
                     <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                         @csrf
                     </form>
@@ -112,6 +113,14 @@
                                 <i class="fas fa-user-clock mr-2"></i>  Habilitations arrivant à expiration
                             </a>
                         </li>
+
+                        @if(\Illuminate\Support\Facades\Auth::user()->type == "admin")
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{route('utilisateurs.index')}}">
+                                    <i class="fas fa-users mr-2"></i>  Utilisateurs
+                                </a>
+                            </li>
+                        @endif
 
 
                     </ul>

@@ -36,8 +36,13 @@ Route::group(['middleware' => 'auth'], function () {
     Route::resource('personnels', \App\Http\Controllers\PersonnelController::class);
     Route::post('personnel/update', [\App\Http\Controllers\PersonnelController::class, 'update'])
         ->name('personnel.update');
-    Route::post('personnel/destroy', [\App\Http\Controllers\PersonnelController::class, 'destroy'])
+    Route::get('personnel/destroy/{id}', [\App\Http\Controllers\PersonnelController::class, 'destroy'])
         ->name('personnel.destroy');
+
+    Route::get('personnel/agents-supprimés', [\App\Http\Controllers\PersonnelController::class, 'showDeletedAgent'])
+        ->name('personnel.deletedList');
+    Route::get('personnel/restaurer/{id}', [\App\Http\Controllers\PersonnelController::class, 'restoreRecord'])
+        ->name('personnel.restaurer');
 
 //Route Ajout habilitations pour personnel
     Route::get('personnels/ajout-habilitation/{id}', [\App\Http\Controllers\PersonnelController::class, 'formulaireAjoutHabilitation'])
@@ -60,6 +65,13 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::post('habilitation/suspendre', [\App\Http\Controllers\PersonnelController::class, 'suspendreHabilitationAgent'])
         ->name('habilitation.suspendre');
+
+    Route::get('habilitation/delete/{id}', [\App\Http\Controllers\HabilitationController::class, 'destroy']);
+
+
+    //Route Utilisateurs
+    Route::resource('utilisateurs', \App\Http\Controllers\UtilisateursController::class);
+
 });
 
 

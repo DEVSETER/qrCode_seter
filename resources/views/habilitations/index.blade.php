@@ -35,14 +35,19 @@
                             <tr>
                                 <td>{{$habilitation->code}}</td>
                                 <td>{{$habilitation->libelle}}</td>
-                                <td>
-                                    <ul class="list-inline mb-0">
-                                        <li class="list-inline-item">
-                                            <a href="{{route('habilitations.edit', [$habilitation->id])}}" class="px-2 text-primary" data-toggle="tooltip" data-placement="top" title="Edit"><i class="uil uil-pen font-size-18"></i></a>
-                                        </li>
+                                <td style="width: 10%">
+                                    <div class="col-sm-6">
+                                        <div class="dropdown mt-4 mt-sm-0">
+                                            <a  class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                Actions <i class="mdi mdi-chevron-down"></i>
+                                            </a>
 
-
-                                    </ul>
+                                            <div class="dropdown-menu">
+                                                <a href="{{route('habilitations.edit', [$habilitation->id])}}" class="px-2 text-secondary" data-toggle="tooltip" data-placement="top" title="Editer"><i class="fas fa-pencil-alt font-size-18"></i></a>
+                                                <a onclick="deleteConfirmation({{$habilitation}})"  class="px-2 text-secondary" data-toggle="tooltip" data-placement="top" title="Supprimer"><i class="far fa-trash-alt font-size-18 btn btn-danger"></i></a>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </td>
                             </tr>
                         @endforeach
@@ -65,4 +70,52 @@
     <script src="{{ URL::asset('assets/libs/jszip/jszip.min.js')}}"></script>
     <script src="{{ URL::asset('assets/libs/pdfmake/pdfmake.min.js')}}"></script>
     <script src="{{ URL::asset('assets/js/pages/datatables.init.js')}}"></script>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/7.2.0/sweetalert2.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/7.2.0/sweetalert2.all.min.js"></script>
+
+
+
+    <script>
+        function deleteConfirmation(habilitation) {
+            swal({
+                title: "Supprimer?",
+                text: "Voulez vous vraiment supprimer l'habilitation " + habilitation.libelle + ' ?',
+                type: "warning",
+                showCancelButton: !0,
+                confirmButtonText: "Oui, supprimer",
+                cancelButtonText: "No, cancel!",
+                reverseButtons: !0
+            }).then(function (e) {
+
+                if (e.value === true) {
+
+                    $.ajax({
+                        type: 'GET',
+                        url: "habilitation/delete/" + habilitation.id,
+                        dataType: 'JSON',
+
+                        success: function (results) {
+                            console.log(results);
+
+                            if (results.success === true) {
+                                swal("Done!", results.message, "success");
+
+                            } else {
+                                swal("Error!", results.message, "error");
+                            }
+                        },
+
+                    });
+                    location.reload();
+
+                } else {
+                    e.dismiss;
+                }
+
+            }, function (dismiss) {
+                return false;
+            })
+        }
+    </script>
 @endsection

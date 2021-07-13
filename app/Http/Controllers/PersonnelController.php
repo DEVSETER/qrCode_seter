@@ -29,6 +29,23 @@ class PersonnelController extends Controller
         return view('personnels.index', compact('personnels'));
     }
 
+    //Show deleted records
+    public function showDeletedAgent(){
+        if (session('success_message')){
+            Alert::success('Réussi', session('success_message'));
+        }
+        $agents = Personnel::onlyTrashed()->get();
+        return view('personnels.deleted-agent', compact('agents'));
+    }
+
+    //Restore Record
+    public function restoreRecord($id){
+        $personnel = Personnel::withTrashed()->findOrFail($id);
+        $personnel->restore();
+
+        return redirect()->route('personnel.deletedList')->withSuccessMessage('Agent '. $personnel->prenom.' '.$personnel->nom.' restauré avec succès');
+    }
+
     /**
      * Show the form for creating a new resource.
      *
@@ -177,6 +194,7 @@ class PersonnelController extends Controller
         $habilitationPersonnel->save();
 
         $habilitation = Habilitation::find($habilitationPersonnel->habilitation_id);
+        $personnel = Personnel::find($habilitationPersonnel->personnel_id);
 
         $action = new Action();
         $action->habilitation_personnel_id = $request->habilitationPersonnel;
@@ -185,7 +203,8 @@ class PersonnelController extends Controller
         $action->personnel = $habilitationPersonnel->personnel_id;
         $action->save();
 
-        return redirect()->route('personnels.show', [$habilitationPersonnel->personnel_id]);
+        return redirect()->route('personnels.show', [$habilitationPersonnel->personnel_id])->withSuccessMessage($habilitation->code.' a été renouvellé pour l\'agent '
+            .$personnel->prenom .' '.$personnel->nom .' avec succès');
     }
 
     //Suspendre Habilitation Agent
@@ -196,6 +215,7 @@ class PersonnelController extends Controller
         $habilitationPersonnel->save();
 
         $habilitation = Habilitation::find($habilitationPersonnel->habilitation_id);
+        $personnel = Personnel::find($habilitationPersonnel->personnel_id);
 
         $action = new Action();
         $action->habilitation_personnel_id = $request->habPersonnel;
@@ -205,7 +225,8 @@ class PersonnelController extends Controller
         $action->save();
 
 
-        return redirect()->route('personnels.show', [$habilitationPersonnel->personnel_id]);
+        return redirect()->route('personnels.show', [$habilitationPersonnel->personnel_id])->withSuccessMessage($habilitation->code.' a été suspendu pour l\'agent '
+            .$personnel->prenom .' '.$personnel->nom .' avec succès');;
 
     }
 
@@ -274,7 +295,7 @@ class PersonnelController extends Controller
     {
         $personnel = Personnel::findOrFail($id);
         $personnel->delete();
-        return redirect()->route('personnels.index')->withErrors(['message', 'Agent '.$personnel->prenom.' '.$personnel->nom.' a été supprimé avec succès']);
+        return redirect()->route('personnels.index')->withSuccessMessage('Agent '.$personnel->prenom. ' '.$personnel->nom. ' supprimé avec succès');
 
     }
 }
