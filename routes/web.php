@@ -68,9 +68,19 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::get('habilitation/delete/{id}', [\App\Http\Controllers\HabilitationController::class, 'destroy']);
 
+    Route::get('habilitation/supprimées');
+
+    Route::get('habilitation/habilitations-supprimées', [\App\Http\Controllers\HabilitationController::class, 'showDeletedRecords'])
+        ->name('habilitation.deletedRecords');
+    Route::get('habilitation/restaurer/{id}', [\App\Http\Controllers\HabilitationController::class, 'restoreHabilitation'])
+        ->name('habilitation.restore');
+
 
     //Route Utilisateurs
     Route::resource('utilisateurs', \App\Http\Controllers\UtilisateursController::class);
+    Route::get('utilisateur/delete/{id}', [\App\Http\Controllers\UtilisateursController::class, 'destroy']);
+    Route::post('utilisateur/modifier', [\App\Http\Controllers\UtilisateursController::class, 'update'])
+        ->name('utilisateur.modifier');
 
 });
 

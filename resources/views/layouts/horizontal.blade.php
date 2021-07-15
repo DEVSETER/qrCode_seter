@@ -70,8 +70,9 @@
                 <div class="dropdown-menu dropdown-menu-right">
                     <!-- item-->
 
+                    <a class="dropdown-item" href="{{route('utilisateurs.edit', [\Illuminate\Support\Facades\Auth::user()->id])}}"><i class="fas fa-user-edit mr-2"></i>Edit Profil</a>
                     <a class="dropdown-item" href="javascript:void();" onclick="event.preventDefault(); document.getElementById('logout-form').submit();"><i class="uil uil-sign-out-alt font-size-18 align-middle mr-1 text-muted"></i> <span class="align-middle">Se Deconnecter</span></a>
-                    <a class="dropdown-item" href=""></a>
+
                     <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                         @csrf
                     </form>
@@ -119,6 +120,17 @@
                                 <a class="nav-link" href="{{route('utilisateurs.index')}}">
                                     <i class="fas fa-users mr-2"></i>  Utilisateurs
                                 </a>
+                            </li>
+
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle arrow-none" href="#" id="topnav-pages" role="button"
+                                   data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <i class="fas fa-trash-restore mr-2"></i>Données supprimées <div class="arrow-down"></div>
+                                </a>
+                                <div class="dropdown-menu" aria-labelledby="topnav-pages">
+                                    <a class="nav-link" href="{{route('personnel.deletedList')}}">Agents</a>
+                                    <a class="nav-link" href="{{route('habilitation.deletedRecords')}}">Habilitations</a>
+                                </div>
                             </li>
                         @endif
 

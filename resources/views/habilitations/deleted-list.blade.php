@@ -1,6 +1,6 @@
 @extends('layouts.master-layouts')
 @section('title')
-    Agents Supprimés
+    Habilitations Supprimées
 @endsection
 
 <link href="{{ URL::asset('assets/css/bootstrap.min.css')}}" id="bootstrap-style" rel="stylesheet" type="text/css" />
@@ -15,36 +15,27 @@
 
 
     <div class="row">
-
         <div class="col-12">
             <div class="card">
                 <div class="card-body">
 
-                    <h4 class="card-title">Liste des agents</h4>
-                    <div class="col-md-6">
-                        <div class="mb-3">
-                            <a href="{{route('personnels.create')}}" class="btn btn-success waves-effect waves-light"><i class="mdi mdi-plus mr-2"></i> Ajouter</a>
-                        </div>
-                    </div>
+                    <h1 class="card-title">Liste des habilitations supprimées</h1>
 
-                    <table id="datatable" class="table table-bordered dt-responsive nowrap table-hover" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+
+                    <table id="datatable" class="table table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                         <thead>
                         <tr>
-                            <th style="width: 5%">Matricule</th>
-                            <th style="width: 30%">Prenom et Nom</th>
-                            <th style="width: 30%">Direction</th>
-                            <th style="width: 25%">Fonction</th>
-                            <th style="width: 10%">Action</th>
+                            <th scope="col">Code</th>
+                            <th scope="col">Libellé</th>
+                            <th scope="col" style="width: 150px;">Action</th>
                         </tr>
                         </thead>
 
                         <tbody>
-                        @foreach($agents as $personnel)
+                        @foreach($habilitations as $habilitation)
                             <tr>
-                                <td style="width: 5%">{{$personnel->matricule}}</td>
-                                <td style="width: 30%">{{$personnel->prenom}} {{$personnel->nom}}</td>
-                                <td style="width: 30%">{{$personnel->direction}}</td>
-                                <td style="width: 25%">{{$personnel->fonction}}</td>
+                                <td>{{$habilitation->code}}</td>
+                                <td>{{$habilitation->libelle}}</td>
                                 <td style="width: 10%">
                                     <div class="col-sm-6">
                                         <div class="dropdown mt-4 mt-sm-0">
@@ -53,26 +44,19 @@
                                             </a>
 
                                             <div class="dropdown-menu">
-                                                <a href="{{route('personnel.restaurer', [$personnel->id])}}" class="px-2 text-secondary" data-toggle="tooltip" data-placement="top" title="Restaurer"><i class="fas fa-trash-restore btn btn-primary"></i></a>
+                                                <a href="{{route('habilitation.restore', [$habilitation->id])}}" class="px-2 text-secondary" data-toggle="tooltip" data-placement="top" title="Restaurer"><i class="fas fa-trash-restore btn btn-primary"></i></a>
 
                                             </div>
                                         </div>
                                     </div>
                                 </td>
                             </tr>
-
-
-
                         @endforeach
 
 
                         </tbody>
 
                     </table>
-
-
-
-
 
                 </div>
             </div>
@@ -89,7 +73,4 @@
     <script src="{{ URL::asset('assets/js/pages/datatables.init.js')}}"></script>
 
 
-
-
 @endsection
-

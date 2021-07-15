@@ -25,6 +25,22 @@ class HabilitationController extends Controller
         return view('habilitations.index', compact('habilitations'));
     }
 
+    //Show deleted records
+    public function showDeletedRecords(){
+        if (session('success_message')){
+            Alert::success('Réussi', session('success_message'));
+        }
+        $habilitations = Habilitation::onlyTrashed()->get();
+        return view('habilitations.deleted-list', compact('habilitations'));
+    }
+
+    //Restore record
+    public function restoreHabilitation($id){
+        $habilitation = Habilitation::withTrashed()->findOrFail($id);
+        $habilitation->restore();
+
+        return redirect()->route('habilitation.deletedRecords')->withSuccessMessage('Habilitation '. $habilitation->code. ' restauré avec succès');;
+    }
 
     public function aboutToExpire() {
         $current_date = Carbon::now();
@@ -127,6 +143,10 @@ class HabilitationController extends Controller
     {
         $habilitation = Habilitation::find($id);
         $habilitation->delete();
+        $habsPers = HabilitationPersonnel::where(['habilitation_id' => $habilitation->id])->get();
+        foreach ($habsPers as $item){
+            $item->delete();
+        }
         return redirect()->route('habilitations.index')->withSuccessMessage('Habilitation '.$habilitation->code. ' supprimé avec succès');
     }
 }

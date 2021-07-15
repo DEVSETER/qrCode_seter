@@ -123,7 +123,9 @@ class PersonnelController extends Controller
             array_push($habilitations, $obj);
         }
 
-        $actions = Action::where(['personnel' => $personnel->id])->get();
+        $actions = Action::where(['personnel' => $personnel->id])
+                ->orderbyDesc('created_at')
+                ->get();
 
         return view('personnels.show', compact('personnel', 'habilitations', 'actions'));
     }
@@ -146,29 +148,36 @@ class PersonnelController extends Controller
 
         ]);
 
-        $habilitationPersonnel = new HabilitationPersonnel();
-        $habilitationPersonnel->habilitation_id = $request->habilitation;
-        $habilitationPersonnel->personnel_id = $request->personnel_id;
-        $habilitationPersonnel->date_obtention = $request->date_obtention;
-        $habilitationPersonnel->date_fin_validite = $request->date_fin_validite;
-        $habilitationPersonnel->status = "actif";
+        $exist = HabilitationPersonnel::where(['habilitation_id' => $request->habilitation, 'personnel_id' => $request->personnel_id])->get();
+        if (count($exist) == 0){
 
-        $habilitationPersonnel->save();
+            $habilitationPersonnel = new HabilitationPersonnel();
+            $habilitationPersonnel->habilitation_id = $request->habilitation;
+            $habilitationPersonnel->personnel_id = $request->personnel_id;
+            $habilitationPersonnel->date_obtention = $request->date_obtention;
+            $habilitationPersonnel->date_fin_validite = $request->date_fin_validite;
+            $habilitationPersonnel->status = "actif";
 
-        $personnel = Personnel::find($request->personnel_id);
-        $habilitation = Habilitation::find($request->habilitation);
+            $habilitationPersonnel->save();
 
-        $action = new Action();
-        $action->habilitation_personnel_id = $habilitationPersonnel->id;
-        $action->libelle = "Obtention Habilitation: ".$habilitation->libelle;
-        $action->acteur = Auth::user()->prenom.' '.Auth::user()->nom;
-        $action->personnel = $request->personnel_id;
-        $action->save();
+            $personnel = Personnel::find($request->personnel_id);
+            $habilitation = Habilitation::find($request->habilitation);
+
+            $action = new Action();
+            $action->habilitation_personnel_id = $habilitationPersonnel->id;
+            $action->libelle = "Obtention Habilitation: ".$habilitation->libelle;
+            $action->acteur = Auth::user()->prenom.' '.Auth::user()->nom;
+            $action->personnel = $request->personnel_id;
+            $action->save();
 
 
 
-        return redirect()->route('personnels.show', [$request->personnel_id])->withSuccessMessage($habilitation->code.' a été affecté à l\'agent '
-            .$personnel->prenom .' '.$personnel->nom .' avec succès');
+            return redirect()->route('personnels.show', [$request->personnel_id])->withSuccessMessage($habilitation->code.' a été affecté à l\'agent '
+                .$personnel->prenom .' '.$personnel->nom .' avec succès');
+
+        }else {
+            return redirect()->route('personnels.show', [$request->personnel_id])->withSuccessMessage('Cet agent possède déjà cette habilitation');
+        }
 
     }
 
@@ -252,23 +261,23 @@ class PersonnelController extends Controller
     public function update(Request $request)
     {
         $request-> validate([
+
             'prenom' => 'required|max:50',
             'nom' => 'required| max: 50',
             'email' => 'required|email',
-            'telephone' => 'required ',
-            'ville' => 'max: 200',
-            'societe' => 'max: 200',
-            'direction' => 'max: 200',
-            'fonction' => 'required |max: 200',
+            'sousDirection' => 'max: 100',
+            'societe' => 'max: 50',
+            'direction' => 'max: 100',
+            'fonction' => 'required |max: 100',
 
         ]);
 
         $personnel = Personnel::findOrFail($request->personnel_id);
+
         $personnel->prenom = $request->prenom;
         $personnel->nom = $request->nom;
         $personnel->email = $request->email;
-        $personnel->telephone = $request->telephone;
-        $personnel->ville = $request->ville;
+        $personnel->sous_direction = $request->sousDirection;
         $personnel->societe = $request->societe;
         $personnel->direction = $request->direction;
         $personnel->fonction = $request->fonction;

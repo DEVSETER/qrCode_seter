@@ -81,10 +81,10 @@
 
 
     <script>
-        function deleteConfirmation(habilitation) {
+        function deleteConfirmation(user) {
             swal({
                 title: "Supprimer?",
-                text: "Voulez vous vraiment supprimer l'habilitation " + habilitation.libelle + ' ?',
+                text: "Voulez vous vraiment supprimer le compte de " +user.prenom + ' ' +user.nom  + ' ?',
                 type: "warning",
                 showCancelButton: !0,
                 confirmButtonText: "Oui, supprimer",
@@ -96,11 +96,11 @@
 
                     $.ajax({
                         type: 'GET',
-                        url: "habilitation/delete/" + habilitation.id,
+                        url: "utilisateur/delete/" + user.id,
                         dataType: 'JSON',
 
                         success: function (results) {
-                            console.log(results);
+                            //console.log(results);
 
                             if (results.success === true) {
                                 swal("Done!", results.message, "success");

@@ -44,8 +44,8 @@ class UtilisateursController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'prenom' => ['required', 'string', 'max:255'],
-            'nom' => ['required', 'string', 'max:255'],
+            'prenom' => ['required', 'string', 'max:50'],
+            'nom' => ['required', 'string', 'max:50'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => $this->passwordRules(),
         ]);
@@ -81,7 +81,8 @@ class UtilisateursController extends Controller
      */
     public function edit($id)
     {
-        //
+        $user = User::find($id);
+        return view('utilisateurs.edit', compact('user'));
     }
 
     /**
@@ -91,9 +92,22 @@ class UtilisateursController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
-        //
+        $request->validate([
+            'prenom' => ['required', 'string', 'max:50'],
+            'nom' => ['required', 'string', 'max:50'],
+            'password' => $this->passwordRules(),
+        ]);
+
+        $user = User::find($request->user);
+        $user->prenom = $request->prenom;
+        $user->nom = $request->nom;
+        $user->password = Hash::make($request->password);
+        $user->save();
+
+        return redirect()->route('dashboard')->withSuccessMessage('Votre compte a été modifié avec succès');
+
     }
 
     /**
@@ -104,6 +118,9 @@ class UtilisateursController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $user = User::find($id);
+        $user->delete();
+
+        return redirect()->route('utilisateurs.index')->withSuccessMessage( $user->prenom.' '.$user->nom.' '.'a été supprimé avec succès');
     }
 }

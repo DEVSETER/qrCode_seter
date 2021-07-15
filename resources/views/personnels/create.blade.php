@@ -196,7 +196,7 @@
                                         </div>
                                     </div>
                                     <div class="media-body overflow-hidden">
-                                        <h5 class="font-size-16 mb-1">Ressources</h5>
+                                        <h5 class="font-size-16 mb-1">Photo</h5>
                                         <p class="text-muted text-truncate mb-0">Fill all information below</p>
                                     </div>
                                     <i class="mdi mdi-chevron-up accor-down-icon font-size-24"></i>
@@ -223,7 +223,7 @@
                 <div class="row mb-4">
                     <div class="col text-right">
 
-                        <button type="submit" class="btn btn-success"> <i class="uil uil-file-alt mr-1"></i> Enregistrr </button>
+                        <button type="submit" class="btn btn-success"> <i class="uil uil-file-alt mr-1"></i> Enregistrer </button>
                     </div> <!-- end col -->
                 </div> <!-- end row-->
             </form>

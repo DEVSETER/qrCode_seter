@@ -7,10 +7,15 @@ use App\Models\HabilitationPersonnel;
 use App\Models\Personnel;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class DashboardController extends Controller
 {
     public function dashboard() {
+        if (session('success_message')){
+            Alert::success('Réussi', session('success_message'));
+        }
+
         $agents = count(Personnel::all());
         $habilitations = count(Habilitation::all());
 
