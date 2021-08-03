@@ -66,6 +66,11 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('habilitation/suspendre', [\App\Http\Controllers\PersonnelController::class, 'suspendreHabilitationAgent'])
         ->name('habilitation.suspendre');
 
+    Route::get('habilitation/retirer/{id}', [\App\Http\Controllers\PersonnelController::class, 'formulaireRetraitHabilitation'])
+        ->name('habilitation.retirer');
+    Route::post('habilitation/renouveler/post', [\App\Http\Controllers\PersonnelController::class, 'retirerHabilitation'])
+        ->name('habilitation.retirerPost');
+
     Route::get('habilitation/delete/{id}', [\App\Http\Controllers\HabilitationController::class, 'destroy']);
 
     Route::get('habilitation/supprimées');
@@ -81,6 +86,12 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('utilisateur/delete/{id}', [\App\Http\Controllers\UtilisateursController::class, 'destroy']);
     Route::post('utilisateur/modifier', [\App\Http\Controllers\UtilisateursController::class, 'update'])
         ->name('utilisateur.modifier');
+
+
+    //Route send mail
+    Route::get('habilitation/renouveler/{id}', [\App\Http\Controllers\SendMailController::class, 'renouveler'])->name('email.renew');
+    Route::get('habilitation/suspendre/{id}', [\App\Http\Controllers\SendMailController::class, 'suspendre'])->name('email.suspend');
+    Route::get('habilitation/retirer/{id}', [\App\Http\Controllers\SendMailController::class, 'retirer'])->name('email.withdraw');
 
 });
 

@@ -45,11 +45,11 @@
             <div class="card" style="border-radius: 20px">
                 <div class="card-body">
                     <div class="float-right mt-2">
-                        <i class="fas fa-user-clock fa-5x" style="color: #f2b774"></i>
+                        <i class="fas fa-exclamation-circle fa-5x" style="color: #f2b774"></i>
                     </div>
                     <div>
-                        <h4 class="mb-1 mt-1" style="color: #f2b774"><span data-plugin="counterup">{{$expired}}</span> habilitation(s)</h4>
-                        <p class="text-muted mb-0">Nombre d'habilitations expirées</p>
+                        <h4 class="mb-1 mt-1" style="color: #f2b774"><span data-plugin="counterup">{{$expired}}</span> Alertes</h4>
+                        <p class="text-muted mb-0">Nombre d'habilitations arrivant à expiration</p>
                     </div>
                 </div>
             </div>

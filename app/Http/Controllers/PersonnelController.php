@@ -20,7 +20,8 @@ class PersonnelController extends Controller
      */
     public function index()
     {
-        $personnels = Personnel::all();
+        $personnels = Personnel::orderBy('id')->get();
+
 
         if (session('success_message')){
             Alert::success('Réussi', session('success_message'));
@@ -113,7 +114,8 @@ class PersonnelController extends Controller
             Alert::success('Réussi', session('success_message'));
         }
         $personnel = Personnel::find($id);
-        $habilitationPersonnel = HabilitationPersonnel::where(['personnel_id' => $personnel->id])->get();
+        $habilitationPersonnel = HabilitationPersonnel::where(['personnel_id' => $personnel->id])
+                                                ->where('status', '!=', 'Retirer')->get();
         $habilitations = [];
         foreach ($habilitationPersonnel as $item){
             $hab = Habilitation::find($item->habilitation_id);
@@ -236,6 +238,52 @@ class PersonnelController extends Controller
 
         return redirect()->route('personnels.show', [$habilitationPersonnel->personnel_id])->withSuccessMessage($habilitation->code.' a été suspendu pour l\'agent '
             .$personnel->prenom .' '.$personnel->nom .' avec succès');;
+
+    }
+
+    //Formulaire Retrait Habilitation
+    public function formulaireRetraitHabilitation($id){
+        $habilitationPersonnel = HabilitationPersonnel::find($id);
+        return view('personnels.retrait-habilitation-agent', compact('habilitationPersonnel'));
+
+    }
+
+
+    //Retirer Habilitation Agent
+    public function retirerHabilitation(Request $request){
+        $request->validate([
+            'motif' => 'required|min:2|max:250',
+        ]);
+
+        $habilitationPersonnel = HabilitationPersonnel::find($request->habilitationPersonnel);
+        $habilitationPersonnel->status = 'Retirer';
+        //$habilitationPersonnel->save();
+
+        $habilitation = Habilitation::find($habilitationPersonnel->habilitation_id);
+        $personnel = Personnel::find($habilitationPersonnel->personnel_id);
+
+        $action = new Action();
+        $action->habilitation_personnel_id = $request->habilitationPersonnel;
+        $action->libelle = "Retrait habilitation: ".$habilitation->libelle;
+        $action->acteur = Auth::user()->prenom.' '.Auth::user()->nom;
+        $action->personnel = $habilitationPersonnel->personnel_id;
+        $action->motif = $request->motif;
+
+        $photo = $request->file('document');
+        //dd($photo);
+        if ($photo != null) {
+            $name = $photo->getClientOriginalName();
+            $path = $photo->storeAs('ressources', $name, 'public');
+            $photo->move(public_path('ressources'),$name);
+            $action->document = $path;
+        }else {
+            $action->document = null;
+        }
+
+        $action->save();
+
+        return redirect()->route('personnels.show', [$habilitationPersonnel->personnel_id])->withSuccessMessage($habilitation->code.' a été retiré à l\'agent '
+            .$personnel->prenom .' '.$personnel->nom .' avec succès');
 
     }
 

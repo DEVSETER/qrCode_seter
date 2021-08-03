@@ -25,6 +25,7 @@
                     <div class="card border border-warning" style="border-color:  #8b262c">
                         <div class="card-body p-4">
                             <div class="text-center mt-2">
+                                <h4 class="text-warning">Gestion des habilitations</h4>
                                 <h5 class="text-primary">Bienvenue !</h5>
                                 <p class="text-muted">Connectez-vous.</p>
                             </div>

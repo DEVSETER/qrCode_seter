@@ -26,6 +26,7 @@
                     <table id="datatable" class="table table-bordered dt-responsive nowrap table-hover" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                         <thead>
                         <tr>
+                            <th style="visibility: hidden">id</th>
                             <th style="width: 5%">Matricule</th>
                             <th style="width: 30%">Prenom et Nom</th>
                             <th style="width: 30%">Direction</th>
@@ -37,6 +38,7 @@
                         <tbody>
                         @foreach($personnels as $personnel)
                             <tr>
+                                <td style="visibility: hidden">{{$personnel->id}}</td>
                                 <td style="width: 5%">{{$personnel->matricule}}</td>
                                 <td style="width: 30%">{{$personnel->prenom}} {{$personnel->nom}}</td>
                                 <td style="width: 30%">{{$personnel->direction}}</td>

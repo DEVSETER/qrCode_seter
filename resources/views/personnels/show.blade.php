@@ -120,19 +120,19 @@
                                                     <td><i class="fas fa-times-circle" style="color: red"></i></td>
                                                 @endif
                                                 <td style="width: 10%">
-                                                    <ul class="list-inline mb-0">
-                                                        <li class="list-inline-item">
-                                                            <a href="{{route('habilitation.renouveler', [$habilitation->id])}}" class="px-2 text-warning" data-toggle="tooltip" data-placement="top" title="Renouveler"><i class="fas fa-recycle font-size-18"></i></a>
-                                                        </li>
+                                                    <div class="col-sm-6">
+                                                        <div class="dropdown mt-4 mt-sm-0">
+                                                            <a  class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                                Actions <i class="mdi mdi-chevron-down"></i>
+                                                            </a>
 
-                                                        <li class="list-inline-item">
-                                                            <form action="{{route('habilitation.suspendre')}}" method="post">
-                                                                @csrf
-                                                                <input type="hidden" name="habPersonnel" value="{{$habilitation->id}}">
-                                                                <button type="submit" class="btn btn-link px-2 text-danger" data-toggle="tooltip" title="Suspendre"><i class="fas fa-ban font-size-18"></i></button>
-                                                            </form>
-                                                        </li>
-                                                    </ul>
+                                                            <div class="dropdown-menu">
+                                                                <a href="{{route('email.renew', [$habilitation->id])}}" class="px-2 text-warning" data-toggle="tooltip" data-placement="top" title="Renouveler"><i class="fas fa-recycle font-size-18"></i></a>
+                                                                <a href="{{route('email.suspend', [$habilitation->id])}}" class="px-2 text-warning" data-toggle="tooltip" data-placement="top" title="Suspendre"><i class="fas fa-ban font-size-18"></i></a>
+                                                                <a href="{{route('email.withdraw', [$habilitation->id])}}" class="px-2 text-warning" data-toggle="tooltip" data-placement="top" title="Retirer"><i class="far fa-trash-alt font-size-18"></i></a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
                                                 </td>
 
 
