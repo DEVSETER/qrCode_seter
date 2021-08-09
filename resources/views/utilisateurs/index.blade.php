@@ -25,6 +25,7 @@
                         <thead>
                         <tr>
                             <th scope="col">#</th>
+                            <th>Type</th>
                             <th scope="col">Prenom</th>
                             <th scope="col">Nom</th>
                             <th scope="col">Email</th>
@@ -36,6 +37,7 @@
                         @foreach($users as $user)
                             <tr>
                                 <td>{{$loop->iteration}}</td>
+                                <td>{{$user->type}}</td>
                                 <td>{{$user->prenom}}</td>
                                 <td>{{$user->nom}}</td>
                                 <td>{{$user->email}}</td>

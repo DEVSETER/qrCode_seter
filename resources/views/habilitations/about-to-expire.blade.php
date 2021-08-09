@@ -44,21 +44,40 @@
                                 <td>{{$value->dateFinValidite}}</td>
                                 <td>{{$value->dateObtention}}</td>
 
-                                <td style="width: 10%">
-                                    <ul class="list-inline mb-0">
-                                        <li class="list-inline-item">
-                                            <a href="{{route('habilitation.renouveler', [$value->id])}}" class="px-2 text-warning" data-toggle="tooltip" data-placement="top" title="Renouveler"><i class="fas fa-recycle font-size-18"></i></a>
-                                        </li>
+                                @if(\Illuminate\Support\Facades\Auth::user()->type == "user")
+                                    <td style="width: 10%">
+                                        <div class="col-sm-6">
+                                            <div class="dropdown mt-4 mt-sm-0">
+                                                <a  class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                    Actions <i class="mdi mdi-chevron-down"></i>
+                                                </a>
+                                                <div class="dropdown-menu">
+                                                    <a href="{{route('email.renew', [$value->id])}}" class="px-2 text-warning" data-toggle="tooltip" data-placement="top" title="Renouveler"><i class="fas fa-recycle font-size-18"></i></a>
+                                                    <a href="{{route('email.suspend', [$value->id])}}" class="px-2 text-warning" data-toggle="tooltip" data-placement="top" title="Suspendre"><i class="fas fa-ban font-size-18"></i></a>
+                                                    <a href="{{route('email.withdraw', [$value->id])}}" class="px-2 text-warning" data-toggle="tooltip" data-placement="top" title="Retirer"><i class="far fa-trash-alt font-size-18"></i></a>
+                                                </div>
 
-                                        <li class="list-inline-item">
-                                            <form action="{{route('habilitation.suspendre')}}" method="post">
-                                                @csrf
-                                                <input type="hidden" name="habPersonnel" value="{{$value->id}}">
-                                                <button type="submit" class="btn btn-link px-2 text-danger" data-toggle="tooltip" title="Suspendre"><i class="fas fa-ban font-size-18"></i></button>
-                                            </form>
-                                        </li>
-                                    </ul>
-                                </td>
+                                            </div>
+                                        </div>
+                                    </td>
+                                @else
+                                    <td style="width: 10%">
+                                        <ul class="list-inline mb-0">
+                                            <li class="list-inline-item">
+                                                <a href="{{route('habilitation.renouveler', [$value->id])}}" class="px-2 text-warning" data-toggle="tooltip" data-placement="top" title="Renouveler"><i class="fas fa-recycle font-size-18"></i></a>
+                                            </li>
+
+                                            <li class="list-inline-item">
+                                                <form action="{{route('habilitation.suspendre')}}" method="post">
+                                                    @csrf
+                                                    <input type="hidden" name="habPersonnel" value="{{$value->id}}">
+                                                    <button type="submit" class="btn btn-link px-2 text-danger" data-toggle="tooltip" title="Suspendre"><i class="fas fa-ban font-size-18"></i></button>
+                                                </form>
+                                            </li>
+                                        </ul>
+                                    </td>
+
+                                @endif
 
                             </tr>
                         @endforeach
