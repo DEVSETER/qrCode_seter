@@ -19,6 +19,13 @@ class EnsureUserHasKey
         if ($request->header('token') != "h6vsdv7VKmtScvCfcOcQ0QVD8WIJf9WVMTFaVAFTJ6LtpFBWJvCB9kIb7U6qLLw8"){
             return response()->json(["Doo Doug Mbeuleee"], 500);
         }
+
+        $response = $next($request);
+
+        $response->headers->set('Access-Control-Allow-Origin', '*');
+        $response->headers->set('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+        $response->headers->set('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+
         return $next($request);
     }
 }
