@@ -7,7 +7,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
-class RetirerHabilitation extends Mailable
+class AjoutHabilitation extends Mailable
 {
     use Queueable, SerializesModels;
 
@@ -16,11 +16,12 @@ class RetirerHabilitation extends Mailable
      *
      * @return void
      */
-    public function __construct($agent, $action)
+    public function __construct($agent, $habilitation)
     {
-        $this->subject("Retrait au poste de la conduite");
+        $this->subject("Acquisition Habilitation");
         $this->agent = $agent;
-        $this->action = $action;
+        $this->habilitation = $habilitation;
+
     }
 
     /**
@@ -30,6 +31,6 @@ class RetirerHabilitation extends Mailable
      */
     public function build()
     {
-        return $this->view('mail.retirer', ['agent' => $this->agent, 'action' => $this->action]);
+        return $this->view('mail.acquisition', ['agent' => $this->agent, 'habilitation' => $this->habilitation]);
     }
 }

@@ -50,6 +50,12 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('personnels/ajout-habilitation/store', [\App\Http\Controllers\PersonnelController::class, 'ajoutHabilitation'])
         ->name('personnels.ajoutHabilitation');
 
+    /**
+     * Actions sur habilitation personnel
+     */
+    Route::get('personnel/habilitations/{id}/actions', [\App\Http\Controllers\PersonnelController::class, 'actionForm'])->name('personnel.actionForm');
+    Route::post('personnel/habilitations/{id}/actions', [\App\Http\Controllers\PersonnelController::class, 'actionHab'])->name('personnel.actionHab');
+
 //Route Habilitation
     Route::resource('habilitations', \App\Http\Controllers\HabilitationController::class);
     Route::post('habilitations/modifier', [\App\Http\Controllers\HabilitationController::class, 'update'])

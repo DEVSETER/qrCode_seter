@@ -17,11 +17,12 @@ class RenouvelerHabilitation extends Mailable
      *
      * @return void
      */
-    public function __construct($agent, $habilitation, $agentHab)
+    public function __construct($agent, $habilitation)
     {
+        $this->subject("Renouvellement Habilitation");
         $this->agent = $agent;
         $this->habilitation = $habilitation;
-        $this->agentHab = $agentHab;
+
     }
 
     /**
@@ -31,6 +32,6 @@ class RenouvelerHabilitation extends Mailable
      */
     public function build()
     {
-        return $this->view('mail.renouveler', ['agent' => $this->agent, 'habilitation' => $this->habilitation, 'agentHab' => $this->agentHab]);
+        return $this->view('mail.renouveler', ['agent' => $this->agent, 'habilitation' => $this->habilitation]);
     }
 }

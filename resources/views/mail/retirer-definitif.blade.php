@@ -15,13 +15,16 @@
     <div class="col-lg-5">
         <div class="text-center mb-5">
             <p>Bonjour {{$agent->prenom}} {{$agent->nom}}</p>
-            <p>Nous vous informons de votre retrait au poste de la Conduite à partir du {{\Illuminate\Support\Carbon::now()->format('d/m/Y')}}</p>
-            <p>Cette mesure conservatoire s’applique le temps de : <b>{{$action->libelle}}</b>.</p>
+            <p>Nous vous informons de votre retrait de votre habilitation : <b>{{$habilitation->libelle}}</b> en domaine RGE à partir du {{\Illuminate\Support\Carbon::now()->format('d/m/Y')}}</p>
+            <p>Cette mesure définitive s’applique à la suite de : <b>{{$action->libelle}}</b>.</p>
             <p>Votre carte d’habilitation a été mise à jour.</p>
+            <p>Cette décision est avec effet immédiat.</p>
             <p>Vous pouvez scanner le QR code au dos de la carte qui vous permet de prendre connaissance des informations liées à votre habilitation.</p>
             <p>Nous restons disponibles pour toutes informations complémentaires.</p>
             <p>Cordialement</p>
-            <p>Unité Conduite</p>
+            @if($agent->direction == "DEX")
+                <p>Unité Conduite</p>
+            @endif
 
         </div>
     </div>

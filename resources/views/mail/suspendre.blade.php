@@ -14,81 +14,23 @@
 <div class="row justify-content-center">
     <div class="col-lg-5">
         <div class="text-center mb-5">
-            <h4>Habilitation à suspendre</h4>
-            <p class="text-muted mb-4">Veuillez suspendre à l'agent cette habilitation</p>
+            <p>Bonjour {{$agent->prenom}} {{$agent->nom}}</p>
+            <p>A la suite de : <b>{{$action->libelle}}</b>, votre habilitation <b>{{$habilitation->libelle}}</b> a été suspendue à compter du {{\Carbon\Carbon::now()->format('d/m/Y')}}</p>
+            <p>Un état des lieux sera effectué afin de vous accompagner dans la réattribution de votre titre d’habilitation.</p>
+            <p>Votre carte d’habilitation a été mise à jour.</p>
+            <p>Vous pouvez scanner le QR code au dos de la carte qui vous permet de prendre connaissance des informations liées à votre habilitation.</p>
+            <p>Nous restons disponibles pour toutes informations complémentaires.</p>
+            <p>Cordialement</p>
+            @if($agent->direction == "DEX")
+                <p>Unité Conduite</p>
+            @endif
 
         </div>
     </div>
 </div>
 <!-- end row -->
 
-<div class="row justify-content-center">
-    <div class="col-lg-9">
-        <div class="row">
-            <div class="col-xl-6">
-                <div class="card pricing-box text-center">
-                    <div class="card-body p-4">
-                        <div>
 
-                            <div class="mt-3">
-                                <h5 class="mb-1">Agent</h5>
-                            </div>
-
-                            <div class="py-3">
-                                <i class="fas fa-user fa-3x"></i>
-                            </div>
-                        </div>
-
-
-                        <ul class="list-unstyled plan-features mt-3">
-                            <li>Matricule: <span class="text-primary font-weight-semibold">{{$agent->matricule}}</span></li>
-                            <li>Prénom: <span class="text-primary font-weight-semibold">{{$agent->prenom}}</span></li>
-                            <li>Nom: <span class="text-primary font-weight-semibold">{{$agent->nom}}</span></li>
-                            <li>Direction: <span class="text-primary font-weight-semibold">{{$agent->direction}}</span></li>
-                            <li>Fonction: <span class="text-primary font-weight-semibold">{{$agent->fonction}}</span></li>
-                            <li>Email: <span class="text-primary font-weight-semibold">{{$agent->email}}</span></li>
-                        </ul>
-
-
-                    </div>
-                </div>
-            </div>
-            <div class="col-xl-6">
-                <div class="card pricing-box text-center">
-                    <div class="card-body p-4">
-                        <div>
-
-                            <div class="mt-3">
-                                <h5 class="mb-1">Habilitation</h5>
-
-                            </div>
-
-                            <div class="py-3">
-                                <i class="fas fa-gavel fa-3x"></i>
-                            </div>
-                        </div>
-
-
-                        <ul class="list-unstyled plan-features mt-3">
-                            <li>Code: <span class="text-primary font-weight-semibold">{{$habilitation->code}}</span></li>
-                            <li>Libellé: <span class="text-primary font-weight-semibold">{{$habilitation->libelle}}</span></li>
-                            <li>Date d'obtention: <span class="text-primary font-weight-semibold">{{$agentHab->date_obtention}}</span></li>
-                            <li>Date fin de validité: <span class="text-primary font-weight-semibold">{{$agentHab->date_fin_validite}}</span></li>
-                            <li>Expire dans: <span class="text-primary font-weight-semibold">{{\Carbon\Carbon::make($agentHab->date_fin_validite)
-                                                    ->diff(\Carbon\Carbon::now())->format('%y ans, %m mois et %d jours')}}</span></li>
-                        </ul>
-
-
-                    </div>
-                </div>
-            </div>
-
-
-        </div>
-        <!-- end row -->
-    </div>
-</div>
-<!-- end row -->
 
 </body>
 

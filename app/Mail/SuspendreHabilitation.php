@@ -16,11 +16,12 @@ class SuspendreHabilitation extends Mailable
      *
      * @return void
      */
-    public function __construct($agent, $habilitation, $agentHab)
+    public function __construct($agent, $habilitation, $action)
     {
+        $this->subject("Suspension d'habilitation");
         $this->agent = $agent;
         $this->habilitation = $habilitation;
-        $this->agentHab = $agentHab;
+        $this->action = $action;
     }
 
     /**
@@ -30,6 +31,6 @@ class SuspendreHabilitation extends Mailable
      */
     public function build()
     {
-        return $this->view('mail.suspendre', ['agent' => $this->agent, 'habilitation' => $this->habilitation, 'agentHab' => $this->agentHab]);
+        return $this->view('mail.suspendre', ['agent' => $this->agent, 'habilitation' => $this->habilitation, 'action' => $this->action]);
     }
 }
