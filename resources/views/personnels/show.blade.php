@@ -114,7 +114,7 @@
                                                 <td>{{$habilitation->libelle}}</td>
                                                 <td>{{$habilitation->dateFinValidite}}</td>
                                                 <td>{{$habilitation->dateObtention}}</td>
-                                                @if($habilitation->status == 'actif')
+                                                @if($habilitation->status == 'HABILITATION-INITIALE' || $habilitation->status == 'RENOUVELLEMENT')
                                                     <td><i class="fas fa-check-circle" style="color: green"></i></td>
                                                 @else
                                                     <td><i class="fas fa-times-circle" style="color: red"></i></td>
@@ -127,7 +127,6 @@
                                                                 Actions <i class="mdi mdi-chevron-down"></i>
                                                             </a>
                                                             <div class="dropdown-menu">
-                                                                <a href="#" class="dropdown-item" >Activer</a>
                                                                 <a href="{{route('habilitation.renouveler', [$habilitation->id])}}" class="dropdown-item" >Renouveler</a>
                                                                 <a href="{{route('personnel.actionForm', [$habilitation->id])}}" class="dropdown-item" >Autre</a>
                                                             </div>

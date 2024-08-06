@@ -164,7 +164,7 @@ class PersonnelController extends Controller
             $habilitationPersonnel->personnel_id = $request->personnel_id;
             $habilitationPersonnel->date_obtention = $request->date_obtention;
             $habilitationPersonnel->date_fin_validite = $request->date_fin_validite;
-            $habilitationPersonnel->status = "actif";
+            $habilitationPersonnel->status = "HABILITATION-INITIALE";
 
             $habilitationPersonnel->save();
 
@@ -173,7 +173,7 @@ class PersonnelController extends Controller
 
             $action = new Action();
             $action->habilitation_personnel_id = $habilitationPersonnel->id;
-            $action->libelle = "Acquisition Habilitation: ".$habilitation->libelle;
+            $action->libelle = "HABILITATION-INITIALE: ".$habilitation->libelle;
             $action->acteur = Auth::user()->prenom.' '.Auth::user()->nom;
             $action->personnel = $request->personnel_id;
             $action->save();
@@ -214,7 +214,7 @@ class PersonnelController extends Controller
 
         $habilitationPersonnel = HabilitationPersonnel::find($request->habilitationPersonnel);
         $habilitationPersonnel->date_fin_validite = $request->date_fin_validite;
-        $habilitationPersonnel->status = 'actif';
+        $habilitationPersonnel->status = 'RENOUVELLEMENT';
         $habilitationPersonnel->save();
 
         $habilitation = Habilitation::find($habilitationPersonnel->habilitation_id);
@@ -222,7 +222,7 @@ class PersonnelController extends Controller
 
         $action = new Action();
         $action->habilitation_personnel_id = $request->habilitationPersonnel;
-        $action->libelle = "Renouvellement habilitation: ".$habilitation->libelle;
+        $action->libelle = "RENOUVELLEMENT: ".$habilitation->libelle;
         $action->acteur = Auth::user()->prenom.' '.Auth::user()->nom;
         $action->personnel = $habilitationPersonnel->personnel_id;
         $action->save();
@@ -268,15 +268,30 @@ class PersonnelController extends Controller
         $action->save();
 
         if ($request->action == "RETRAIT AU POSTE"){
+            if ($personnel->direction == "DEX"){
+                Mail::to($personnel->email)->cc(["ManagementDEX@keolisgroup.onmicrosoft.com", "hotlinedex@seter.sn", "PlanificateursConduite@keolisgroup.onmicrosoft.com"])->send(new RetirerHabilitation($personnel, $action));
+            }else {
+                Mail::to($personnel->email)->send(new RetirerHabilitation($personnel, $action));
+            }
 
-            Mail::to($personnel->email)->cc(["ManagementDEX@keolisgroup.onmicrosoft.com", "hotlinedex@seter.sn", "PlanificateursConduite@keolisgroup.onmicrosoft.com"])->send(new RetirerHabilitation($personnel, $action));
+
 
         }elseif ($request->action == "SUSPENDU"){
-            Mail::to($personnel->email)->cc(["ManagementDEX@keolisgroup.onmicrosoft.com", "hotlinedex@seter.sn", "PlanificateursConduite@keolisgroup.onmicrosoft.com"])->send(new SuspendreHabilitation($personnel, $habilitation, $action));
+            if ($personnel->direction == "DEX"){
+                Mail::to($personnel->email)->cc(["ManagementDEX@keolisgroup.onmicrosoft.com", "hotlinedex@seter.sn", "PlanificateursConduite@keolisgroup.onmicrosoft.com"])->send(new SuspendreHabilitation($personnel, $habilitation, $action));
+            }else {
+                Mail::to($personnel->email)->send(new SuspendreHabilitation($personnel, $habilitation, $action));
+            }
+
 
         }else {
+            if ($personnel->direction == "DEX"){
+                Mail::to($personnel->email)->cc(["ManagementDEX@keolisgroup.onmicrosoft.com", "hotlinedex@seter.sn", "PlanificateursConduite@keolisgroup.onmicrosoft.com"])->send(new RetraitDefinitif($personnel, $habilitation, $action));
+            }else {
+                Mail::to($personnel->email)->send(new RetraitDefinitif($personnel, $habilitation, $action));
+            }
 
-            Mail::to($personnel->email)->cc(["ManagementDEX@keolisgroup.onmicrosoft.com", "hotlinedex@seter.sn", "PlanificateursConduite@keolisgroup.onmicrosoft.com"])->send(new RetraitDefinitif($personnel, $habilitation, $action));
+
         }
 
 
