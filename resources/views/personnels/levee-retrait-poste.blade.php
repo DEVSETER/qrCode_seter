@@ -1,6 +1,6 @@
 @extends('layouts.master-layouts')
 @section('title')
-    Renouvellement Habilitation
+    Levée de retrait au poste
 @endsection
 
 
@@ -26,8 +26,8 @@
             <div class="card">
                 <div class="card-body">
 
-                    <h4 class="card-title">Action sur une habilitation d'un agent</h4>
-                    <form action="{{route('personnel.actionHab', [$habilitationPersonnel->id])}}"
+                    <h4 class="card-title">Levée de retrait au poste</h4>
+                    <form action="{{route('personnel.retraitPoste', [$habilitationPersonnel->id])}}"
                           method="POST" class="custom-validation">
 
                         @csrf
@@ -46,19 +46,6 @@
                                 </div>
                             </div>
 
-                            <div class="form-group col-md-10">
-                                <label for="action" class="col-sm-3 col-form-label">Action</label>
-                                <div class="col-md-10">
-                                    <select name="action" id="action" class="form-control">
-                                        <option value="RETRAIT AU POSTE">Retrait au poste</option>
-                                        <option value="SUSPENDU">Suspension</option>
-                                        <option value="RETRAIT DEFINITIF">Retrait définitif</option>
-                                    </select>
-                                    @error('action')
-                                    <div class="alert alert-danger">{{ $message }}</div>
-                                    @enderror
-                                </div>
-                            </div>
 
                             <div class="form-group col-md-12">
                                 <label for="motif" class="col-sm-3 col-form-label">Motif</label>
@@ -73,8 +60,6 @@
 
 
                         </div>
-
-
 
 
 

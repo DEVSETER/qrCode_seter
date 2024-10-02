@@ -43,6 +43,7 @@ class AgentHabilitationSeeder extends Seeder
             $habilitation = new Habilitation();
             $habilitation->code = $hab->code;
             $habilitation->libelle = $hab->libelle;
+            $habilitation->role_conduite = true;
 
             $habilitation->save();
         }
@@ -1125,10 +1126,11 @@ class AgentHabilitationSeeder extends Seeder
 
             $action = new Action();
             $action->habilitation_personnel_id = $habilitationPersonnel->id;
-            $action->libelle = "HABILITATION-INITIALE: ".$habConduite->libelle;
+            $action->libelle = "HABILITATION-INITIALE";
+            $action->motif = $habConduite->libelle;
             $action->acteur = "SYSTEME";
             $action->personnel = $personnel->id;
-            $action->created_at = Carbon::createFromFormat("d/m/Y", $value["Date d'habilitation initiale"])->format("Y-m-d H:i:s");
+            $action->document = Carbon::createFromFormat("d/m/Y", $value["Date d'habilitation initiale"])->format("d-m-Y");
             $action->save();
 
         }
@@ -1231,10 +1233,11 @@ class AgentHabilitationSeeder extends Seeder
 
             $action = new Action();
             $action->habilitation_personnel_id = $habilitationPersonnel->id;
-            $action->libelle = "HABILITATION-INITIALE: ".$habTtx->libelle;
+            $action->libelle = "HABILITATION-INITIALE";
+            $action->motif = $habTtx->libelle;
             $action->acteur = "SYSTEME";
             $action->personnel = $personnel->id;
-            $action->created_at = Carbon::createFromFormat("d/m/Y", $value["Date d'habilitation initiale"])->format("Y-m-d H:i:s");
+            $action->document = Carbon::createFromFormat("d/m/Y", $value["Date d'habilitation initiale"])->format("d-m-Y");
             $action->save();
         }
 
@@ -1539,10 +1542,11 @@ class AgentHabilitationSeeder extends Seeder
 
             $action = new Action();
             $action->habilitation_personnel_id = $habPersonnel->id;
-            $action->libelle = $value["Motif"];
+            $action->libelle = $value["Statut"];
+            $action->motif = $value["Motif"];
             $action->acteur = "SYSTEME";
             $action->personnel = $personnel->id;
-            $action->created_at = Carbon::createFromFormat("d/m/Y", $value["Date"])->format("Y-m-d H:i:s");
+            $action->document = Carbon::createFromFormat("d/m/Y", $value["Date"])->format("d-m-Y");
             $action->save();
         }
 

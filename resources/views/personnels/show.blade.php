@@ -114,7 +114,7 @@
                                                 <td>{{$habilitation->libelle}}</td>
                                                 <td>{{$habilitation->dateFinValidite}}</td>
                                                 <td>{{$habilitation->dateObtention}}</td>
-                                                @if($habilitation->status == 'HABILITATION-INITIALE' || $habilitation->status == 'RENOUVELLEMENT')
+                                                @if($habilitation->status == 'HABILITATION-INITIALE' || $habilitation->status == 'RENOUVELLEMENT' || $habilitation->status == 'ACTIF')
                                                     <td><i class="fas fa-check-circle" style="color: green"></i></td>
                                                 @else
                                                     <td><i class="fas fa-times-circle" style="color: red"></i></td>
@@ -127,8 +127,17 @@
                                                                 Actions <i class="mdi mdi-chevron-down"></i>
                                                             </a>
                                                             <div class="dropdown-menu">
-                                                                <a href="{{route('habilitation.renouveler', [$habilitation->id])}}" class="dropdown-item" >Renouveler</a>
-                                                                <a href="{{route('personnel.actionForm', [$habilitation->id])}}" class="dropdown-item" >Autre</a>
+                                                                @if($habilitation->status == 'HABILITATION-INITIALE' || $habilitation->status == 'RENOUVELLEMENT' || $habilitation->status == 'ACTIF')
+                                                                    <a href="{{route('habilitation.renouveler', [$habilitation->id])}}" class="dropdown-item" >Renouveler</a>
+                                                                    <a href="{{route('personnel.actionForm', [$habilitation->id])}}" class="dropdown-item" >Retrait au poste/Suspension</a>
+
+                                                                @elseif($habilitation->status == 'SUSPENDU')
+                                                                    <a href="{{route('personnel.retraitSuspensionForm', [$habilitation->id])}}" class="dropdown-item" >Levée de suspension</a>
+
+                                                                @elseif($habilitation->status == 'RETRAIT AU POSTE')
+                                                                    <a href="{{route('personnel.retraitPosteForm', [$habilitation->id])}}" class="dropdown-item" >Levée de retrait au poste</a>
+                                                                @endif
+
                                                             </div>
 
                                                         </div>
@@ -151,14 +160,16 @@
                     </div>
 
                     <div>
-                        <h5 class="font-size-16 mb-4">Journal des actions</h5>
+
+                        <h3 class="font-size-19 mb-4 mt-4">Historique des actions</h3>
 
                         <ul class="activity-feed mb-0 pl-2">
                             @foreach($actions as $action)
                                 <li class="feed-item">
                                     <div class="feed-item-list">
-                                        <p class="text-muted mb-1">{{\Carbon\Carbon::make($action->created_at)->format('d M Y H:i')}}</p>
+                                        <p class="text-muted mb-1">{{$action->document}}</p>
                                         <h5 class="font-size-16">{{$action->libelle}}</h5>
+                                        <h5 class="font-size-16">{{$action->motif}}</h5>
                                         <p>Par: {{$action->acteur}}</p>
                                     </div>
                                 </li>

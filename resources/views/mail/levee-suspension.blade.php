@@ -15,14 +15,10 @@
     <div class="col-lg-5">
         <div class="text-center mb-5">
             <p>Bonjour {{$agent->prenom}} {{$agent->nom}},</p>
-            <p>Toutes nos félicitations pour cette habilitation: <b>{{$habilitation->libelle}}</b>.</p>
-            <p>Votre carte d’accès a été configurée.</p>
+            <p>A la suite de : {{$action->motif}}, votre suspension d'habilitation a été levée à compter du <b>{{$action->document}}</b>.</p>
+            <p>Le Plan d’Action Personnalisé (PAP) mis en œuvre de concert avec votre manager, a permis de lever la suspension et de vous réattribuer votre titre d’habilitation.</p>
+            <p>Votre carte d’accès a été mise à jour.</p>
             <p>Vous pouvez scanner le QR code au dos de la carte qui vous permet de prendre connaissance des informations liées à votre habilitation.</p>
-            @if($habilitation->role_conduite)
-                <p>Pour rappel, vous devez être accompagné sur votre première journée de conduite en toute autonomie.</p>
-                <p>En cas de doute, vous pouvez contacter votre manager ou la Hotline Conduite.</p>
-            @endif
-            <p>Merci de toujours avoir cette carte en votre possession afin de la présenter lors des contrôles.</p>
             <p>Nous restons disponibles pour toutes informations complémentaires.</p>
             <p>Cordialement</p>
             @if($habilitation->role_conduite)

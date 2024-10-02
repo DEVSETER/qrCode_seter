@@ -23,6 +23,7 @@ class HabController extends Controller
             if (count($habAgent) != 0){
                 foreach ($habAgent as $item){
                     $hab = Habilitation::find($item->habilitation_id);
+
                     if ($item->date_fin_validite < Carbon::now()){
                         $expired = true;
                     }else {
@@ -47,5 +48,26 @@ class HabController extends Controller
             return ["Agent introuvable"];
         }
 
+    }
+
+    public function getHabilitationActions(Request $request){
+        $agent = Personnel::where(['matricule' => $request->matricule])->first();
+        $habilitation = Habilitation::where(['code' => $request->codeHab])->first();
+        if ($agent != null && $habilitation != null){
+            $habPersonnel = HabilitationPersonnel::where(['habilitation_id' => $habilitation->id, 'personnel_id' => $agent->id])->first();
+            $histories = [];
+            if ($habPersonnel != null && $habPersonnel->actions != null){
+                foreach ($habPersonnel->actions as $item){
+                    $history = (object)['action' => $item->libelle, 'acteur' => $item->acteur, 'motif' => $item->motif, 'dateAction' => $item->document];
+                    array_push($histories, $history);
+                }
+            }
+
+
+            return $histories;
+
+        }else {
+            return ["Agent introuvable"];
+        }
     }
 }

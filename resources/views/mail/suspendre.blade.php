@@ -15,13 +15,13 @@
     <div class="col-lg-5">
         <div class="text-center mb-5">
             <p>Bonjour {{$agent->prenom}} {{$agent->nom}}</p>
-            <p>A la suite de : <b>{{$action->libelle}}</b>, votre habilitation <b>{{$habilitation->libelle}}</b> a été suspendue à compter du {{\Carbon\Carbon::now()->format('d/m/Y')}}</p>
+            <p>A la suite de : <b>{{$action->motif}}</b>, votre habilitation <b>{{$habilitation->libelle}}</b> a été suspendue à compter du {{$action->document}}</p>
             <p>Un état des lieux sera effectué afin de vous accompagner dans la réattribution de votre titre d’habilitation.</p>
             <p>Votre carte d’habilitation a été mise à jour.</p>
             <p>Vous pouvez scanner le QR code au dos de la carte qui vous permet de prendre connaissance des informations liées à votre habilitation.</p>
             <p>Nous restons disponibles pour toutes informations complémentaires.</p>
             <p>Cordialement</p>
-            @if($agent->direction == "DEX")
+            @if($habilitation->role_conduite)
                 <p>Unité Conduite</p>
             @endif
 

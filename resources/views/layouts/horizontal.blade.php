@@ -71,11 +71,9 @@
                     <!-- item-->
 
                     <a class="dropdown-item" href="{{route('utilisateurs.edit', [\Illuminate\Support\Facades\Auth::user()->id])}}"><i class="fas fa-user-edit mr-2"></i>Edit Profil</a>
-                    <a class="dropdown-item" href="javascript:void();" onclick="event.preventDefault(); document.getElementById('logout-form').submit();"><i class="uil uil-sign-out-alt font-size-18 align-middle mr-1 text-muted"></i> <span class="align-middle">Se Deconnecter</span></a>
+                    <a class="dropdown-item" href="{{ route('auth.logout') }}" ><i class="uil uil-sign-out-alt font-size-18 align-middle mr-1 text-muted"></i> <span class="align-middle">Se Deconnecter</span></a>
 
-                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                        @csrf
-                    </form>
+
                 </div>
             </div>
 

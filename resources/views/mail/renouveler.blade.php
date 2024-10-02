@@ -18,13 +18,13 @@
             <p>Toutes nos félicitations pour le renouvellement de votre titre d’habilitation : <b>{{$habilitation->libelle}}</b>.</p>
             <p>Votre carte d’habilitation a été mise à jour.</p>
             <p>Vous pouvez scanner le QR code au dos de la carte qui vous permet de prendre connaissance des informations liées à votre habilitation.</p>
-            @if($agent->direction == "DEX")
+            @if($habilitation->role_conduite)
                 <p>En cas de doute, vous pouvez contacter votre manager ou la Hotline Conduite.</p>
             @endif
             <p>Merci de toujours avoir cette carte en votre possession afin de la présenter lors des contrôles.</p>
             <p>Nous restons disponibles pour toutes informations complémentaires.</p>
             <p>Cordialement</p>
-            @if($agent->direction == "DEX")
+            @if($habilitation->role_conduite)
                 <p>Unité Conduite</p>
             @endif
         </div>

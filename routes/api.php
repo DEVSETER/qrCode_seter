@@ -22,7 +22,10 @@ Route::group(['middleware' => "ensureUserHasKey"], function () {
 
     Route::get('personnel/{matricule}', [\App\Http\Controllers\Apis\HabController::class, 'getAgentByMatricule']);
 
+    Route::post('historique', [\App\Http\Controllers\Apis\HabController::class, 'getHabilitationActions']);
+
 });
+
 
 
 

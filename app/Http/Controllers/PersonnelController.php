@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Mail\AjoutHabilitation;
+use App\Mail\LeveeRetraitPoste;
+use App\Mail\LeveeSuspension;
 use App\Mail\RenouvelerHabilitation;
 use App\Mail\RetirerHabilitation;
 use App\Mail\RetraitDefinitif;
@@ -173,13 +175,16 @@ class PersonnelController extends Controller
 
             $action = new Action();
             $action->habilitation_personnel_id = $habilitationPersonnel->id;
-            $action->libelle = "HABILITATION-INITIALE: ".$habilitation->libelle;
+            $action->libelle = "HABILITATION-INITIALE";
+            $action->motif = $habilitation->libelle;
             $action->acteur = Auth::user()->prenom.' '.Auth::user()->nom;
             $action->personnel = $request->personnel_id;
+            $action->document = Carbon::parse($request->date_obtention)->format('d-m-Y');
             $action->save();
 
-            if ($personnel->direction == "DEX"){
-                Mail::to($personnel->email)->cc(["ManagementDEX@keolisgroup.onmicrosoft.com", "hotlinedex@seter.sn", "PlanificateursConduite@keolisgroup.onmicrosoft.com"])->send(new AjoutHabilitation($personnel, $habilitation));
+            if ($habilitation->role_conduite){
+                Mail::to($personnel->email)->cc(["ManagementDEX@keolisgroup.onmicrosoft.com", "hotlinedex@seter.sn", "PlanificateursConduite@keolisgroup.onmicrosoft.com", "moustapha.mbaye@seter.sn", "amy.ba@seter.sn", "laurent.graillot@seter.sn", "marie-francoise.sarr@seter.sn"])
+                    ->send(new AjoutHabilitation($personnel, $habilitation));
 
             }else {
                 Mail::to($personnel->email)->send(new AjoutHabilitation($personnel, $habilitation));
@@ -209,7 +214,8 @@ class PersonnelController extends Controller
     public function renouvelerHabilitationAgent(Request $request)
     {
         $request->validate([
-            'date_fin_validite' => 'required'
+            'date_fin_validite' => 'required',
+            'dateAction' => 'required'
         ]);
 
         $habilitationPersonnel = HabilitationPersonnel::find($request->habilitationPersonnel);
@@ -222,13 +228,16 @@ class PersonnelController extends Controller
 
         $action = new Action();
         $action->habilitation_personnel_id = $request->habilitationPersonnel;
-        $action->libelle = "RENOUVELLEMENT: ".$habilitation->libelle;
+        $action->libelle = "RENOUVELLEMENT ";
+        $action->motif = $habilitation->libelle;
         $action->acteur = Auth::user()->prenom.' '.Auth::user()->nom;
         $action->personnel = $habilitationPersonnel->personnel_id;
+        $action->document = Carbon::parse($request->dateAction)->format('d-m-Y');
         $action->save();
 
-        if ($personnel->direction == "DEX"){
-            Mail::to($personnel->email)->cc(["ManagementDEX@keolisgroup.onmicrosoft.com", "hotlinedex@seter.sn", "PlanificateursConduite@keolisgroup.onmicrosoft.com"])->send(new RenouvelerHabilitation($personnel, $habilitation));
+        if ($habilitation->role_conduite){
+            Mail::to($personnel->email)->cc(["ManagementDEX@keolisgroup.onmicrosoft.com", "hotlinedex@seter.sn", "PlanificateursConduite@keolisgroup.onmicrosoft.com", "moustapha.mbaye@seter.sn", "amy.ba@seter.sn", "laurent.graillot@seter.sn", "marie-francoise.sarr@seter.sn"])
+                ->send(new RenouvelerHabilitation($personnel, $habilitation));
 
         }else {
             Mail::to($personnel->email)->send(new RenouvelerHabilitation($personnel, $habilitation));
@@ -250,6 +259,7 @@ class PersonnelController extends Controller
         $request->validate([
            "action" => "required",
            "motif" => "required|max:200",
+            'dateAction' => 'required'
 
         ]);
 
@@ -262,14 +272,17 @@ class PersonnelController extends Controller
 
         $action = new Action();
         $action->habilitation_personnel_id = $id;
-        $action->libelle = $request->motif;
+        $action->libelle = $request->action;
+        $action->motif = $request->motif;
         $action->acteur = Auth::user()->prenom.' '.Auth::user()->nom;
         $action->personnel = $habilitationPersonnel->personnel_id;
+        $action->document = Carbon::parse($request->dateAction)->format('d-m-Y');
         $action->save();
 
         if ($request->action == "RETRAIT AU POSTE"){
-            if ($personnel->direction == "DEX"){
-                Mail::to($personnel->email)->cc(["ManagementDEX@keolisgroup.onmicrosoft.com", "hotlinedex@seter.sn", "PlanificateursConduite@keolisgroup.onmicrosoft.com"])->send(new RetirerHabilitation($personnel, $action));
+            if ($habilitation->role_conduite){
+                Mail::to($personnel->email)->cc(["ManagementDEX@keolisgroup.onmicrosoft.com", "hotlinedex@seter.sn", "PlanificateursConduite@keolisgroup.onmicrosoft.com", "moustapha.mbaye@seter.sn", "amy.ba@seter.sn", "laurent.graillot@seter.sn", "marie-francoise.sarr@seter.sn"])
+                    ->send(new RetirerHabilitation($personnel, $action));
             }else {
                 Mail::to($personnel->email)->send(new RetirerHabilitation($personnel, $action));
             }
@@ -277,16 +290,18 @@ class PersonnelController extends Controller
 
 
         }elseif ($request->action == "SUSPENDU"){
-            if ($personnel->direction == "DEX"){
-                Mail::to($personnel->email)->cc(["ManagementDEX@keolisgroup.onmicrosoft.com", "hotlinedex@seter.sn", "PlanificateursConduite@keolisgroup.onmicrosoft.com"])->send(new SuspendreHabilitation($personnel, $habilitation, $action));
+            if ($habilitation->role_conduite){
+                Mail::to($personnel->email)->cc(["ManagementDEX@keolisgroup.onmicrosoft.com", "hotlinedex@seter.sn", "PlanificateursConduite@keolisgroup.onmicrosoft.com", "moustapha.mbaye@seter.sn", "amy.ba@seter.sn", "laurent.graillot@seter.sn", "marie-francoise.sarr@seter.sn"])
+                    ->send(new SuspendreHabilitation($personnel, $habilitation, $action));
             }else {
                 Mail::to($personnel->email)->send(new SuspendreHabilitation($personnel, $habilitation, $action));
             }
 
 
         }else {
-            if ($personnel->direction == "DEX"){
-                Mail::to($personnel->email)->cc(["ManagementDEX@keolisgroup.onmicrosoft.com", "hotlinedex@seter.sn", "PlanificateursConduite@keolisgroup.onmicrosoft.com"])->send(new RetraitDefinitif($personnel, $habilitation, $action));
+            if ($habilitation->role_conduite){
+                Mail::to($personnel->email)->cc(["ManagementDEX@keolisgroup.onmicrosoft.com", "hotlinedex@seter.sn", "PlanificateursConduite@keolisgroup.onmicrosoft.com", "moustapha.mbaye@seter.sn", "amy.ba@seter.sn", "laurent.graillot@seter.sn", "marie-francoise.sarr@seter.sn"])
+                    ->send(new RetraitDefinitif($personnel, $habilitation, $action));
             }else {
                 Mail::to($personnel->email)->send(new RetraitDefinitif($personnel, $habilitation, $action));
             }
@@ -299,6 +314,7 @@ class PersonnelController extends Controller
 
 
     }
+
 
     //Suspendre Habilitation Agent
     public function suspendreHabilitationAgent(Request $request)
@@ -367,6 +383,93 @@ class PersonnelController extends Controller
         return redirect()->route('personnels.show', [$habilitationPersonnel->personnel_id])->withSuccessMessage($habilitation->code.' a été retiré à l\'agent '
             .$personnel->prenom .' '.$personnel->nom .' avec succès');
 
+    }
+
+    /**
+     * Formulaire levée de retrait au poste
+     */
+    public function leveeDeRetraitPosteForm($id){
+        $habilitationPersonnel = HabilitationPersonnel::find($id);
+        return view('personnels.levee-retrait-poste', compact('habilitationPersonnel'));
+    }
+
+    /**
+     * Levée retrait au poste
+     */
+    public function leveeRetraitPoste(Request $request, $id){
+        $request->validate([
+            'motif' => 'required|min:2|max:250',
+            'dateAction' => 'required'
+        ]);
+
+        $habilitationPersonnel = HabilitationPersonnel::find($id);
+        $habilitation = Habilitation::find($habilitationPersonnel->habilitation_id);
+        $personnel = Personnel::find($habilitationPersonnel->personnel_id);
+
+        $habilitationPersonnel->status = "ACTIF";
+        $habilitationPersonnel->save();
+
+        $action = new Action();
+        $action->habilitation_personnel_id = $id;
+        $action->libelle = "LEVEE DE RETRAIT AU POSTE";
+        $action->motif = $request->motif;
+        $action->acteur = Auth::user()->prenom.' '.Auth::user()->nom;
+        $action->personnel = $habilitationPersonnel->personnel_id;
+        $action->document = Carbon::parse($request->dateAction)->format('d-m-Y');
+        $action->save();
+
+        if ($habilitation->role_conduite){
+            Mail::to($personnel->email)->cc(["ManagementDEX@keolisgroup.onmicrosoft.com", "hotlinedex@seter.sn", "PlanificateursConduite@keolisgroup.onmicrosoft.com", "moustapha.mbaye@seter.sn", "amy.ba@seter.sn", "laurent.graillot@seter.sn", "marie-francoise.sarr@seter.sn"])
+                ->send(new LeveeRetraitPoste($personnel, $habilitation, $action));
+        }else {
+            Mail::to($personnel->email)->send(new RetirerHabilitation($personnel, $action));
+        }
+
+        return redirect()->route('personnels.show', [$habilitationPersonnel->personnel_id])->withSuccessMessage("Action effectuée avec succès");
+
+    }
+
+    /**
+     * Levée suspension Form
+     */
+    public function leveeSuspensionForm($id){
+        $habilitationPersonnel = HabilitationPersonnel::find($id);
+        return view('personnels.levee-suspension', compact('habilitationPersonnel'));
+    }
+
+    /**
+     * Levée Suspension
+     */
+    public function leveeSuspension(Request $request, $id){
+        $request->validate([
+            'motif' => 'required|min:2|max:250',
+            'dateAction' => 'required'
+        ]);
+
+        $habilitationPersonnel = HabilitationPersonnel::find($id);
+        $habilitation = Habilitation::find($habilitationPersonnel->habilitation_id);
+        $personnel = Personnel::find($habilitationPersonnel->personnel_id);
+
+        $habilitationPersonnel->status = "ACTIF";
+        $habilitationPersonnel->save();
+
+        $action = new Action();
+        $action->habilitation_personnel_id = $id;
+        $action->libelle = "LEVEE DE SUSPENSION";
+        $action->motif = $request->motif;
+        $action->acteur = Auth::user()->prenom.' '.Auth::user()->nom;
+        $action->personnel = $habilitationPersonnel->personnel_id;
+        $action->document = Carbon::parse($request->dateAction)->format('d-m-Y');
+        $action->save();
+
+        if ($habilitation->role_conduite){
+            Mail::to($personnel->email)->cc(["ManagementDEX@keolisgroup.onmicrosoft.com", "hotlinedex@seter.sn", "PlanificateursConduite@keolisgroup.onmicrosoft.com", "moustapha.mbaye@seter.sn", "amy.ba@seter.sn", "laurent.graillot@seter.sn", "marie-francoise.sarr@seter.sn"])
+                ->send(new LeveeSuspension($personnel, $habilitation, $action));
+        }else {
+            Mail::to($personnel->email)->send(new RetirerHabilitation($personnel, $action));
+        }
+
+        return redirect()->route('personnels.show', [$habilitationPersonnel->personnel_id])->withSuccessMessage("Action effectuée avec succès");
     }
 
     /**
@@ -441,4 +544,6 @@ class PersonnelController extends Controller
         return redirect()->route('personnels.index')->withSuccessMessage('Agent '.$personnel->prenom. ' '.$personnel->nom. ' supprimé avec succès');
 
     }
+
+
 }

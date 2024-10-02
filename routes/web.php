@@ -17,13 +17,11 @@ Route::get('/', function () {
     if (\Illuminate\Support\Facades\Auth::check()) {
         return redirect()->route('dashboard');
     }else {
-        return redirect()->route('login');
+        return redirect()->route('auth.loginSsoForm');
     }
 });
 
-Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
-    return redirect()->route('dashboard');
-});
+
 
 
 Route::group(['middleware' => 'auth'], function () {
@@ -55,6 +53,14 @@ Route::group(['middleware' => 'auth'], function () {
      */
     Route::get('personnel/habilitations/{id}/actions', [\App\Http\Controllers\PersonnelController::class, 'actionForm'])->name('personnel.actionForm');
     Route::post('personnel/habilitations/{id}/actions', [\App\Http\Controllers\PersonnelController::class, 'actionHab'])->name('personnel.actionHab');
+
+    //Levée de retrait au poste
+    Route::get('personnel/habilitations/{id}/levee-retrait', [\App\Http\Controllers\PersonnelController::class, 'leveeDeRetraitPosteForm'])->name('personnel.retraitPosteForm');
+    Route::post('personnel/habilitations/{id}/levee-retrait', [\App\Http\Controllers\PersonnelController::class, 'leveeRetraitPoste'])->name('personnel.retraitPoste');
+
+    //Levée de Suspension
+    Route::get('personnel/habilitations/{id}/levee-suspension', [\App\Http\Controllers\PersonnelController::class, 'leveeSuspensionForm'])->name('personnel.retraitSuspensionForm');
+    Route::post('personnel/habilitations/{id}/levee-suspension', [\App\Http\Controllers\PersonnelController::class, 'leveeSuspension'])->name('personnel.retraitSuspension');
 
 //Route Habilitation
     Route::resource('habilitations', \App\Http\Controllers\HabilitationController::class);
@@ -99,8 +105,18 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('habilitation/suspendre/envoi-mail/{id}', [\App\Http\Controllers\SendMailController::class, 'suspendre'])->name('email.suspend');
     Route::get('habilitation/retirer/envoi-mail/{id}', [\App\Http\Controllers\SendMailController::class, 'retirer'])->name('email.withdraw');
 
+    //Logout
+    Route::get('logout', [\App\Http\Controllers\AuthController::class, 'logout'])->name('auth.logout');
+
 });
 
 
+Route::get('login', [\App\Http\Controllers\AuthController::class, 'loginSsoForm'])->name('auth.loginSsoForm');
+Route::get('login/sso', [\App\Http\Controllers\AuthController::class, 'loginSso'])->name('auth.loginSso');
 
+Route::get('test/login', [\App\Http\Controllers\AuthController::class, 'loginForm'])->name('auth.loginForm');
+Route::post('test/login', [\App\Http\Controllers\AuthController::class, 'login'])->name('auth.login');
+Route::get('test/verify-token', [\App\Http\Controllers\AuthController::class, 'verifyTokenForm'])->name('auth.verifyTokenForm');
+Route::post('test/verify-token', [\App\Http\Controllers\AuthController::class, 'verifyToken'])->name('auth.verifyToken');
+//Route::get('sms/test', [\App\Http\Controllers\PersonnelController::class, 'test']);
 
