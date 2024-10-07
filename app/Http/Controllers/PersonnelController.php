@@ -133,9 +133,15 @@ class PersonnelController extends Controller
             array_push($habilitations, $obj);
         }
 
-        $actions = Action::where(['personnel' => $personnel->id])
+        $actions = [];
+        $actionsData = Action::where(['personnel' => $personnel->id])
                 ->orderbyDesc('created_at')
                 ->get();
+        foreach ($actionsData as $item){
+            $hab = Habilitation::find($item->habilitationPersonnel->habilitation_id);
+            $obj = (object)['document' => $item->document, 'habilitation' => $hab->code. " ".$hab->libelle, 'libelle' => $item->libelle, 'motif' => $item->motif, 'acteur' => $item->acteur];
+            array_push($actions, $obj);
+        }
 
         return view('personnels.show', compact('personnel', 'habilitations', 'actions'));
     }

@@ -101,16 +101,19 @@
                             </a>
                         </li>
 
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{route('habilitations.index')}}">
-                                <i class="fas fa-gavel"></i>  Habilitations
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle arrow-none" href="#" id="topnav-pages" role="button"
+                               data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="fas fa-gavel"></i>  Habilitations <div class="arrow-down"></div>
                             </a>
-                        </li>
-
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{route('habilitations.aboutToExpire')}}">
-                                <i class="fas fa-user-clock mr-2"></i>  Habilitations arrivant à expiration
-                            </a>
+                            <div class="dropdown-menu" aria-labelledby="topnav-pages">
+                                <a class="nav-link" href="{{route('habilitations.index')}}">Habilitations</a>
+                                <a class="nav-link" href="{{route('habilitations.actives')}}">Habilitations Actives</a>
+                                <a class="nav-link" href="{{route('habilitations.aboutToExpire')}}">Habilitations Arrivant à expiration</a>
+                                <a class="nav-link" href="{{route('habilitations.retraitPoste')}}">Habilitations retirées</a>
+                                <a class="nav-link" href="{{route('habilitations.suspendues')}}">Habilitations suspendues</a>
+                                <a class="nav-link" href="{{route('habilitations.retraitDefinitif')}}">Habilitations retirées définitivement</a>
+                            </div>
                         </li>
 
                         @if(\Illuminate\Support\Facades\Auth::user()->type == "admin")

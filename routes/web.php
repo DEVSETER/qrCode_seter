@@ -67,8 +67,22 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('habilitations/modifier', [\App\Http\Controllers\HabilitationController::class, 'update'])
         ->name('habilitations.modification');
 
+    // Habilitations arrivant à expiration
     Route::get('about-to-expire', [\App\Http\Controllers\HabilitationController::class, 'aboutToExpire'])
         ->name('habilitations.aboutToExpire');
+
+    // Habilitations retirées
+    Route::get('retrait-poste', [\App\Http\Controllers\HabilitationController::class, 'habilitationsRetirees'])->name('habilitations.retraitPoste');
+
+    // Habilitations suspendues
+    Route::get('suspendues', [\App\Http\Controllers\HabilitationController::class, 'habilitationsSuspendues'])->name('habilitations.suspendues');
+
+    // Habilitations retirées definitivement
+    Route::get('retrait-definitif', [\App\Http\Controllers\HabilitationController::class, 'habilitationsRetireesDefinitivement'])->name('habilitations.retraitDefinitif');
+
+    // Habilitations actives
+    Route::get('actives', [\App\Http\Controllers\HabilitationController::class, 'habilitationsActives'])->name('habilitations.actives');
+
 
     Route::get('habilitation/renouveler/{id}', [\App\Http\Controllers\PersonnelController::class, 'formulaireRenouvellementHabilitation'])
         ->name('habilitation.renouveler');

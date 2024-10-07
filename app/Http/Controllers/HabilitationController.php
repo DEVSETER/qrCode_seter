@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Action;
 use App\Models\Habilitation;
 use App\Models\HabilitationPersonnel;
 use App\Models\Personnel;
@@ -53,12 +54,98 @@ class HabilitationController extends Controller
             $agent = Personnel::find($item->personnel_id);
             $obj = (object)['id' => $item->id, 'dateObtention' => $item->date_obtention, 'dateFinValidite' => $item->date_fin_validite,
                 'codeHabilitation' => $habilitation->code, 'libelleHabilitation' => $habilitation->libelle, 'prenom' => $agent->prenom,
-                'nom' => $agent->nom, 'matricule' => $agent->matricule, 'direction' => $agent->direction, 'fonction' => $agent->fonction];
+                'nom' => $agent->nom, 'matricule' => $agent->matricule, 'direction' => $agent->direction, 'fonction' => $agent->fonction, 'status' => $item->status];
             array_push($values, $obj);
         }
         //return $values;
 
         return view('habilitations.about-to-expire', compact('values'));
+    }
+
+    /**
+     * Habilitations retirées
+     */
+    public function habilitationsRetirees(){
+        $data = HabilitationPersonnel::where(['status' => "RETRAIT AU POSTE"])->get();
+        $values = [];
+        foreach ($data as $item){
+            $habilitation = Habilitation::find($item->habilitation_id);
+            $agent = Personnel::find($item->personnel_id);
+            $action = Action::where(['habilitation_personnel_id' => $item->id, 'libelle' => "RETRAIT AU POSTE"])->latest()->first();
+            $obj = (object)['id' => $item->id, 'dateObtention' => $item->date_obtention, 'dateFinValidite' => $item->date_fin_validite,
+                'codeHabilitation' => $habilitation->code, 'libelleHabilitation' => $habilitation->libelle, 'prenom' => $agent->prenom,
+                'nom' => $agent->nom, 'matricule' => $agent->matricule, 'direction' => $agent->direction, 'fonction' => $agent->fonction, 'statut' => $action->libelle,
+                "acteur" => $action->acteur, "motif" => $action->motif, "dateAction" => $action->document];
+            array_push($values, $obj);
+        }
+
+        //return $values;
+
+        return view('habilitations.retrait-poste', compact('values'));
+
+    }
+
+    /**
+     * Habilitations suspendues
+     */
+    public function habilitationsSuspendues(){
+        $data = HabilitationPersonnel::where(['status' => "SUSPENDU"])->get();
+        $values = [];
+        foreach ($data as $item){
+            $habilitation = Habilitation::find($item->habilitation_id);
+            $agent = Personnel::find($item->personnel_id);
+            $action = Action::where(['habilitation_personnel_id' => $item->id, 'libelle' => "SUSPENDU"])->latest()->first();
+            $obj = (object)['id' => $item->id, 'dateObtention' => $item->date_obtention, 'dateFinValidite' => $item->date_fin_validite,
+                'codeHabilitation' => $habilitation->code, 'libelleHabilitation' => $habilitation->libelle, 'prenom' => $agent->prenom,
+                'nom' => $agent->nom, 'matricule' => $agent->matricule, 'direction' => $agent->direction, 'fonction' => $agent->fonction, 'statut' => $action->libelle,
+                "acteur" => $action->acteur, "motif" => $action->motif, "dateAction" => $action->document];
+
+            array_push($values, $obj);
+        }
+
+        return view('habilitations.suspendu', compact('values'));
+    }
+
+    /**
+     * Habilitations retirées definitivement
+     */
+    public function habilitationsRetireesDefinitivement(){
+        $data = HabilitationPersonnel::where(['status' => "RETRAIT DEFINITIF"])->get();
+        $values = [];
+        foreach ($data as $item){
+            $habilitation = Habilitation::find($item->habilitation_id);
+            $agent = Personnel::find($item->personnel_id);
+            $action = Action::where(['habilitation_personnel_id' => $item->id, 'libelle' => "RETRAIT DEFINITIF"])->latest()->first();
+            $obj = (object)['id' => $item->id, 'dateObtention' => $item->date_obtention, 'dateFinValidite' => $item->date_fin_validite,
+                'codeHabilitation' => $habilitation->code, 'libelleHabilitation' => $habilitation->libelle, 'prenom' => $agent->prenom,
+                'nom' => $agent->nom, 'matricule' => $agent->matricule, 'direction' => $agent->direction, 'fonction' => $agent->fonction, 'statut' => $action->libelle,
+                "acteur" => $action->acteur, "motif" => $action->motif, "dateAction" => $action->document];
+            array_push($values, $obj);
+        }
+
+        return view('habilitations.retrait-definitif', compact('values'));
+    }
+
+    /**
+     * Habilitations actives
+     */
+    public function habilitationsActives(){
+        $data = HabilitationPersonnel::where(['status' => "HABILITATION-INITIALE"])
+            ->orWhere(['status' => "RENOUVELLEMENT"])
+            ->orWhere(['status' => "ACTIF"])
+            ->get();
+
+        $values = [];
+        foreach ($data as $item){
+            $habilitation = Habilitation::find($item->habilitation_id);
+            $agent = Personnel::find($item->personnel_id);
+            $obj = (object)['id' => $item->id, 'dateObtention' => $item->date_obtention, 'dateFinValidite' => $item->date_fin_validite,
+                'codeHabilitation' => $habilitation->code, 'libelleHabilitation' => $habilitation->libelle, 'prenom' => $agent->prenom,
+                'nom' => $agent->nom, 'matricule' => $agent->matricule, 'direction' => $agent->direction, 'fonction' => $agent->fonction];
+            array_push($values, $obj);
+        }
+
+        return view('habilitations.retrait-definitif', compact('values'));
     }
 
     /**

@@ -168,6 +168,7 @@
                                 <li class="feed-item">
                                     <div class="feed-item-list">
                                         <p class="text-muted mb-1">{{$action->document}}</p>
+                                        <h5 class="font-size-16">{{$action->habilitation}}</h5>
                                         <h5 class="font-size-16">{{$action->libelle}}</h5>
                                         <h5 class="font-size-16">{{$action->motif}}</h5>
                                         <p>Par: {{$action->acteur}}</p>
