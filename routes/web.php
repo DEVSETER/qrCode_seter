@@ -125,8 +125,8 @@ Route::group(['middleware' => 'auth'], function () {
 });
 
 
-Route::get('login', [\App\Http\Controllers\AuthController::class, 'loginSsoForm'])->name('auth.loginSsoForm');
-Route::get('login/sso', [\App\Http\Controllers\AuthController::class, 'loginSso'])->name('auth.loginSso');
+Route::get('connexion', [\App\Http\Controllers\AuthController::class, 'loginSsoForm'])->name('auth.loginSsoForm');
+Route::get('connexion/sso', [\App\Http\Controllers\AuthController::class, 'loginSso'])->name('auth.loginSso');
 
 Route::get('test/login', [\App\Http\Controllers\AuthController::class, 'loginForm'])->name('auth.loginForm');
 Route::post('test/login', [\App\Http\Controllers\AuthController::class, 'login'])->name('auth.login');
