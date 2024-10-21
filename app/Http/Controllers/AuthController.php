@@ -25,9 +25,16 @@ class AuthController extends Controller
      * Login SSO
      */
     public function loginSso(){
-        $url = "https://seter.trustelem.com/app/2000767";
-        $clientID = "trustelem.oidc.gfstqnzxmy";
-        $clientSecret = "1Bwo1RrLDfbE7mme2rG4ym5oKeoshRP3";
+        //Test ENV
+        //$url = "https://seter.trustelem.com/app/2000767";
+        //$clientID = "trustelem.oidc.gfstqnzxmy";
+        //$clientSecret = "1Bwo1RrLDfbE7mme2rG4ym5oKeoshRP3";
+
+        //PROD ENV
+        $url = "https://seter.trustelem.com/app/2045635";
+        $clientID = "trustelem.oidc.gftdgntdgm";
+        $clientSecret = "AXc9fk637eTJAXWKlbFnhDOhwvKS32OA";
+
         $oidc = new OpenIDConnectClient($url, $clientID, $clientSecret);
 
         $oidc->authenticate();
