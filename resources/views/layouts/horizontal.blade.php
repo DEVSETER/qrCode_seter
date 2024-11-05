@@ -108,11 +108,11 @@
                             </a>
                             <div class="dropdown-menu" aria-labelledby="topnav-pages">
                                 <a class="nav-link" href="{{route('habilitations.index')}}">Habilitations</a>
-                                <a class="nav-link" href="{{route('habilitations.actives')}}">Habilitations Actives</a>
-                                <a class="nav-link" href="{{route('habilitations.aboutToExpire')}}">Habilitations Arrivant à expiration</a>
-                                <a class="nav-link" href="{{route('habilitations.retraitPoste')}}">Habilitations retirées</a>
-                                <a class="nav-link" href="{{route('habilitations.suspendues')}}">Habilitations suspendues</a>
-                                <a class="nav-link" href="{{route('habilitations.retraitDefinitif')}}">Habilitations retirées définitivement</a>
+                                <a class="nav-link" href="{{route('habilitations.actives')}}">Actives</a>
+                                <a class="nav-link" href="{{route('habilitations.aboutToExpire')}}">Arrivant à expiration</a>
+                                <a class="nav-link" href="{{route('habilitations.retraitPoste')}}">Retrait au Poste</a>
+                                <a class="nav-link" href="{{route('habilitations.suspendues')}}">Suspendues</a>
+                                <a class="nav-link" href="{{route('habilitations.retraitDefinitif')}}">Retrait Definitif</a>
                             </div>
                         </li>
 

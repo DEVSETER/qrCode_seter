@@ -135,17 +135,24 @@ class HabilitationController extends Controller
             ->orWhere(['status' => "ACTIF"])
             ->get();
 
+        $current_date = Carbon::now();
+        $date = Carbon::parse($current_date);
         $values = [];
         foreach ($data as $item){
-            $habilitation = Habilitation::find($item->habilitation_id);
-            $agent = Personnel::find($item->personnel_id);
-            $obj = (object)['id' => $item->id, 'dateObtention' => $item->date_obtention, 'dateFinValidite' => $item->date_fin_validite,
-                'codeHabilitation' => $habilitation->code, 'libelleHabilitation' => $habilitation->libelle, 'prenom' => $agent->prenom,
-                'nom' => $agent->nom, 'matricule' => $agent->matricule, 'direction' => $agent->direction, 'fonction' => $agent->fonction];
-            array_push($values, $obj);
+            if (Carbon::createFromFormat('Y-m-d', $item->date_fin_validite)->gt($current_date)){
+                $habilitation = Habilitation::find($item->habilitation_id);
+                $agent = Personnel::find($item->personnel_id);
+                $obj = (object)['id' => $item->id, 'dateObtention' => $item->date_obtention, 'dateFinValidite' => $item->date_fin_validite,
+                    'codeHabilitation' => $habilitation->code, 'libelleHabilitation' => $habilitation->libelle, 'prenom' => $agent->prenom,
+                    'nom' => $agent->nom, 'matricule' => $agent->matricule, 'direction' => $agent->direction, 'fonction' => $agent->fonction];
+                array_push($values, $obj);
+            }
+
         }
 
-        return view('habilitations.retrait-definitif', compact('values'));
+        //return $values;
+
+        return view('habilitations.active', compact('values'));
     }
 
     /**
