@@ -211,8 +211,8 @@ class PersonnelController extends Controller
     public function formulaireRenouvellementHabilitation($id)
     {
         $habilitationPersonnel = HabilitationPersonnel::find($id);
-        $date = Carbon::now()->addDays(7)->format('Y-m-d');
-        return view('personnels.renouvellement-habilitation-agent', compact('habilitationPersonnel', 'date'));
+        //$date = Carbon::now()->addDays(7)->format('Y-m-d');
+        return view('personnels.renouvellement-habilitation-agent', compact('habilitationPersonnel'));
 
     }
 

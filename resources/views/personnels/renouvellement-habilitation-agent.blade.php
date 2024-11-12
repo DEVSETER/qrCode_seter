@@ -40,7 +40,7 @@
                                 <label for="dateAction" class="col-sm-3 col-form-label">Date de renouvellement</label>
                                 <div class="col-md-8">
                                     <input name="dateAction" type="date" class="form-control" id="dateAction"
-                                           value="{{old('dateAction')}}" min="{{$date}}">
+                                           value="{{old('dateAction')}}" >
                                     @error('dateAction')
                                     <div class="alert alert-danger">{{ $message }}</div>
                                     @enderror
@@ -51,7 +51,7 @@
                                 <label for="date_fin_validite" class="col-sm-3 col-form-label">Date Fin Validité</label>
                                 <div class="col-md-8">
                                     <input name="date_fin_validite" type="date" class="form-control" id="date_fin_validite"
-                                           value="{{old('date_fin_validite')}}" min="{{$date}}">
+                                           value="{{old('date_fin_validite')}}" >
                                     @error('date_fin_validite')
                                     <div class="alert alert-danger">{{ $message }}</div>
                                     @enderror
